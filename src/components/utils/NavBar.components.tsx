@@ -1,5 +1,7 @@
+import { OllamaContext } from "@/contexts/Ollama.context";
 import { List, ListItemButton, ListItemText } from "@mui/material";
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface INavBarProps {
   appBarTopHeight: number; // Hauteur de l'AppBarTop
@@ -12,6 +14,15 @@ interface INavBarProps {
  */
 export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
   (props, ref) => {
+    const { ollamaEstCharge, ollamaErreur } = useContext(OllamaContext);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    function handleNavigation(chemin: string) {
+      navigate(chemin);
+    }
+
     return (
       <List
         ref={ref}
@@ -26,16 +37,42 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           borderRight: "1px solid #000",
         }}
       >
-        <ListItemButton component="a" selected>
+        <ListItemButton
+          component="a"
+          selected={location.pathname === "/"}
+          onClick={() => handleNavigation("/")}
+          disabled={!ollamaEstCharge && ollamaErreur === ""}
+        >
           <ListItemText primary="Page principale" />
         </ListItemButton>
-        <ListItemButton component="a">
+        <ListItemButton
+          component="a"
+          selected={location.pathname === "/traducteur"}
+          onClick={() => {
+            handleNavigation("/traducteur");
+          }}
+          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+        >
           <ListItemText primary="Traducteur" />
         </ListItemButton>
-        <ListItemButton component="a">
+        <ListItemButton
+          component="a"
+          selected={location.pathname === "/resume"}
+          onClick={() => {
+            handleNavigation("/resume");
+          }}
+          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+        >
           <ListItemText primary="Résumé de texte" />
         </ListItemButton>
-        <ListItemButton component="a">
+        <ListItemButton
+          component="a"
+          selected={location.pathname === "/reformulation"}
+          onClick={() => {
+            handleNavigation("/reformulation");
+          }}
+          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+        >
           <ListItemText primary="Reformulation" />
         </ListItemButton>
       </List>

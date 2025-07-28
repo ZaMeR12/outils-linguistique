@@ -1,9 +1,10 @@
-import { Grid } from "@mui/material";
+import { Alert, Grid } from "@mui/material";
 import { AppBarTop } from "./utils/AppBarTop.components";
 import { NavBar } from "./utils/NavBar.components";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import { Outlet } from "react-router-dom";
+import { OllamaContext } from "@/contexts/Ollama.context";
 
 interface IConteneurPrincipalProps {}
 
@@ -16,6 +17,10 @@ interface IConteneurPrincipalProps {}
 export const ConteneurPrincipal = (
   props: IConteneurPrincipalProps
 ): JSX.Element => {
+  const {
+    ollamaErreur, // Erreur de l'OllamaContext
+  } = useContext(OllamaContext);
+
   const appBarTopRef = useRef<HTMLDivElement>(null); // Référence pour la barre d'application supérieure
   // État pour stocker la hauteur de l'élément AppBarTop
   const [appBarTopHeight, setAppBarTopHeight] = useState<number | null>(null);
@@ -70,6 +75,13 @@ export const ConteneurPrincipal = (
         />
       </Grid>
       <Grid size={10}>
+        {ollamaErreur !== "" ? (
+          <Alert severity="error" sx={{ margin: 2 }}>
+            {ollamaErreur}
+          </Alert>
+        ) : (
+          <></>
+        )}
         <Outlet
           context={{
             appBarTopHeight: _.isNull(appBarTopHeight) ? 0 : appBarTopHeight,

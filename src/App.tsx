@@ -11,9 +11,9 @@ function App() {
         <Routes>
           <Route path="/" element={<ConteneurPrincipal />}>
             <Route index element={<PagePrincipale />} />
-            {/* <Route path="dadams" element={<DouglasAdams />} />
-          <Route path="oscard" element={<OrsonScottCard />} />
-          <Route path="livre/:id" element={<Livre />} /> */}
+            <Route path="traducteur" element={<div>Traducteur</div>} />
+            <Route path="resume" element={<div>Résumé de texte</div>} />
+            <Route path="reformulation" element={<div>Reformulation</div>} />
           </Route>
         </Routes>
       </OllamaProvider>

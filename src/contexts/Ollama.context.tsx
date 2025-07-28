@@ -106,9 +106,11 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
       ollama.current = new Ollama({ host: ollamaUrl.toString() });
       chercherModeles();
       setOllamaErreur("");
+      setOllamaEstCharge(true);
       console.log("Mise à jour de l'instance Ollama avec l'URL:", ollamaUrl);
     } catch (error) {
       setOllamaErreur("Il y a un problème de connexion au serveur d'Ollama.");
+      setOllamaEstCharge(false);
     }
   };
 
@@ -133,7 +135,9 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
       setModeles(listeModeleTemp);
       setOllamaErreur("");
     } catch (error) {
-      setOllamaErreur("Échec de la communication avec le serveur d'Ollama.");
+      setOllamaErreur(
+        "Échec de la communication avec le serveur d'Ollama. Vérifiez l'URL et le statut du serveur."
+      );
     }
   };
 

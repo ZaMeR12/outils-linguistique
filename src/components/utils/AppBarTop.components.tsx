@@ -1,6 +1,6 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import SettingsIcon from "@mui/icons-material/Settings";
+
 import { forwardRef } from "react";
 interface IAppBarTopProps {}
 
