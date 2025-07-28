@@ -1,0 +1,68 @@
+site_name: Outils linguistique - Docs
+site_url: https://zamer12.github.io/outils-linguistique/
+theme:
+  name: material
+  font:
+    text: Parkinsans
+    code: JetBrains Mono
+  icon:
+    logo: material/toolbox
+  
+  palette:
+    # Darkmode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Mode sombre
+    # Lightmode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Mode clair
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.instant
+    - navigation.expand
+    - navigation.sections
+    - navigation.footer
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+       custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - admonition
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - md_in_html
+  - pymdownx.blocks.caption
+  - meta
+  - tables
+
+plugins:
+  - glightbox
+  - search
+  - autolinks
+
+copyright: Copyright ©️ Documentation par ZaMeR12, 2025
+
+extra:
+  social:
+    - icon: material/github
+      link: https://github.com/ZaMeR12/outils-linguistique
