@@ -56,7 +56,7 @@ const FormulaireParam = (props: IFormulaireParamProps) => {
       </CardContent>
       <CardContent>
         <Typography variant="h5" component="h5">
-          Source du service d'IA.
+          Source du service d'Ollama.
         </Typography>
         <Typography
           variant="body2"
