@@ -6,7 +6,7 @@ Le traducteur permet de traduire un texte dans une autre langues.
 
 - Anglais Américian
 - Anglais Britannique
-- Français candaien
+- Français canadien
 - Français de France
 
 ## Utilisation
