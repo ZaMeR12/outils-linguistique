@@ -5,9 +5,8 @@ theme:
   font:
     text: Parkinsans
     code: JetBrains Mono
-  icon:
-    logo: material/toolbox
-  
+  logo: assets/icon-512.png
+  favicon: assets/icon-512.png
   palette:
     # Darkmode
     - scheme: slate
