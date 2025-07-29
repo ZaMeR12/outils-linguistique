@@ -163,6 +163,7 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
     modele: IModeleOllama,
     messages: Message[]
   ) => {
+    reponseOllamaRef.current = "";
     setOllamaEstCharge(false);
     ollama.current
       .chat({

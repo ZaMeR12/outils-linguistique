@@ -9,7 +9,7 @@ import { Message } from "ollama/browser";
 
 export enum LangueTraducteurEng {
   FR_CA = "french canadian",
-  FR_FR = "french France",
+  FR_FR = "french from France",
   EN_US = "english american",
   EN_GB = "english british",
 }
@@ -42,6 +42,7 @@ export const correspondanceLangues: Record<
 };
 
 export enum StyleEcritureEng {
+  AUCUNE = "none",
   VICTORIEN = "victorian",
   PIRATE = "pirate",
   NOBLE = "noble",
@@ -63,6 +64,7 @@ export enum StyleEcritureEng {
 }
 
 export enum StyleEcritureFr {
+  AUCUNE = "aucun",
   VICTORIEN = "victorien",
   PIRATE = "pirate",
   NOBLE = "noble",
@@ -94,6 +96,7 @@ export enum StyleEcritureFr {
  * @author GitHub. (2025). GitHub Copilot (version juillet 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
  */
 export const correspondanceStyles: Record<StyleEcritureEng, StyleEcritureFr> = {
+  [StyleEcritureEng.AUCUNE]: StyleEcritureFr.AUCUNE,
   [StyleEcritureEng.VICTORIEN]: StyleEcritureFr.VICTORIEN,
   [StyleEcritureEng.PIRATE]: StyleEcritureFr.PIRATE,
   [StyleEcritureEng.NOBLE]: StyleEcritureFr.NOBLE,
@@ -115,10 +118,10 @@ export const correspondanceStyles: Record<StyleEcritureEng, StyleEcritureFr> = {
 };
 
 /**
- * Génère le contexte de traduction pour Ollama.
+ * Génère le contexte de traduction pour Ollama avec prise en compte des différences régionales/culturelles.
  * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
- * en tant qu'expert en traduction de langues.
- * @author ZaMeR_12
+ * en tant qu'expert en traduction de langues, en tenant compte des spécificités culturelles
+ * comme les différences entre le français canadien et le français de France.
  * @param langOrigine Langue d'origine de la traduction.
  * @param langTrad Langue de destination de la traduction.
  * @param texteInitial Texte à traduire.
@@ -131,7 +134,7 @@ export const genererContexteTraduction = (
 ): Message => {
   return {
     role: RoleMessageOllama.SYSTEM,
-    content: `You are a language translation expert. Your task is to translate text from ${langOrigine} to ${langTrad}. The text to translate is: "${texteInitial}"`,
+    content: `Translate the following text from ${langOrigine} to ${langTrad}, taking into account regional and cultural word differences. For example, ensure that Canadian French uses terms like "melon d'eau" instead of "pastèque" used in French from France. Only provide the translated text, nothing else: "${texteInitial}"`,
   };
 };
 
@@ -153,8 +156,7 @@ export const genererContexteResume = (
 };
 
 /**
- * Génère le contexte de reformulation pour Ollama.
- * @author ZaMeR_12
+ * Génère le contexte de reformulation pour Ollama avec prise en compte des mots régionaux/culturels.
  * @param texteInitial Texte à reformuler.
  * @param langue Langue de destination de la reformulation.
  * @param limiteMots Limite de mots pour la reformulation (optionnel).

@@ -1,16 +1,27 @@
 import { OllamaContext } from "@/contexts/Ollama.context";
+import { RoleMessageOllama } from "@/models/Ollama.models";
 import {
   correspondanceLangues,
+  genererContexteTraduction,
   LangueTraducteurEng,
 } from "@/utils/ContexteSyteme";
 import { Button, Card, Grid, MenuItem, TextField } from "@mui/material";
-import { useContext, useState } from "react";
+import { Message } from "ollama/browser";
+import { useContext, useEffect } from "react";
 import useLocalStorage from "use-local-storage";
 
 interface ITradFormulaireProps {}
 
 const TradFormulaire = (props: ITradFormulaireProps) => {
-  const { ollamaErreur, ollamaEstCharge } = useContext(OllamaContext);
+  const {
+    ollamaErreur,
+    ollamaEstCharge,
+    genererReponseOllama,
+    reponseOllama,
+    arreterReponseOllama,
+    traductionModele,
+    viderReponseOllama,
+  } = useContext(OllamaContext);
 
   const [langueOrigine, setLangueOrigine] =
     useLocalStorage<LangueTraducteurEng>(
@@ -23,17 +34,87 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
     LangueTraducteurEng.EN_US
   );
 
+  const [texteATraduire, setTexteATraduire] = useLocalStorage<string>(
+    "texteATraduire",
+    ""
+  );
+
+  const [traduction, setTraduction] = useLocalStorage<string>("traduction", "");
+
+  /**
+   * Gère le changement de la langue source sélectionnée.
+   * @author ZaMeR12
+   * @param event L'événement de changement provenant de l'élément select.
+   */
   const onChangeLangueOrigine = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setLangueOrigine(event.target.value as LangueTraducteurEng);
   };
 
+  /**
+   * Gère le changement de la langue cible sélectionnée.
+   * @author ZaMeR12
+   * @param event L'événement de changement provenant de l'élément select.
+   */
   const onChangeLangueTrad = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setLangueTrad(event.target.value as LangueTraducteurEng);
   };
+
+  /**
+   * Gère le changement du texte à traduire.
+   * @author ZaMeR12
+   * @param event L'événement de changement provenant de l'élément input.
+   */
+  const onChangeTexteATraduire = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setTexteATraduire(event.target.value);
+  };
+
+  /**
+   * Gère le clic sur le bouton "Nettoyer" pour réinitialiser les champs de saisie.
+   * @author ZaMeR12
+   */
+  const onClickNettoyer = () => {
+    setTexteATraduire("");
+    setTraduction("");
+    viderReponseOllama();
+  };
+
+  /**
+   * Gère le clic sur le bouton "Traduire" pour lancer la traduction du texte.
+   * Cette fonction crée un message de l'utilisateur avec le texte à traduire,
+   * génère un contexte système pour la traduction, et appelle la fonction
+   * `genererReponseOllama` pour obtenir la traduction.
+   * Si le texte à traduire est vide, aucune action n'est effectuée.
+   * @author ZaMeR12
+   */
+  const onClickTraduire = async () => {
+    if (texteATraduire.trim() !== "") {
+      const texteTradMessage: Message = {
+        role: RoleMessageOllama.USER,
+        content: texteATraduire,
+      };
+
+      const contexteSysteme = genererContexteTraduction(
+        langueOrigine,
+        langueTrad,
+        texteATraduire
+      );
+
+      const messages: Message[] = [contexteSysteme, texteTradMessage];
+      await genererReponseOllama(traductionModele, messages);
+    }
+  };
+
+  useEffect(() => {
+    if (reponseOllama && reponseOllama !== traduction) {
+      setTraduction(reponseOllama);
+    }
+  }, [reponseOllama]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>
@@ -68,6 +149,8 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             multiline
             required
             rows={4}
+            value={texteATraduire}
+            onChange={onChangeTexteATraduire}
             placeholder="Entrez le texte à traduire ici..."
             slotProps={{
               input: {
@@ -81,7 +164,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
         <Grid size={6} sx={{ borderLeft: "1px solid #000", paddingLeft: 1 }}>
           <TextField
             fullWidth
-            label="Langue d'origine"
+            label="Langue de traduction"
             variant="outlined"
             disabled={!ollamaEstCharge || ollamaErreur !== ""}
             select
@@ -108,6 +191,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             multiline
             rows={4}
             placeholder="La traduction apparaîtra ici..."
+            value={traduction}
             slotProps={{
               input: {
                 inputProps: {
@@ -118,13 +202,34 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             }}
           />
         </Grid>
-        <Grid size={3}>
+        <Grid size={4}>
           <Button
             variant="contained"
             color="primary"
             disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            onClick={onClickTraduire}
           >
             Traduire
+          </Button>
+        </Grid>
+        <Grid size={4} sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            onClick={onClickNettoyer}
+          >
+            Nettoyer
+          </Button>
+        </Grid>
+        <Grid size={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={ollamaEstCharge}
+            onClick={() => arreterReponseOllama()}
+          >
+            Arrêter la réponse
           </Button>
         </Grid>
       </Grid>

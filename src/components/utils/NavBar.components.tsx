@@ -14,14 +14,22 @@ interface INavBarProps {
  */
 export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
   (props, ref) => {
-    const { ollamaEstCharge, ollamaErreur } = useContext(OllamaContext);
+    const { ollamaEstCharge, ollamaErreur, viderReponseOllama } =
+      useContext(OllamaContext);
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    function handleNavigation(chemin: string) {
+    /**
+     * Gère la navigation vers une nouvelle page.
+     * Vide la réponse d'Ollama avant de naviguer.
+     * @author ZaMeR_12
+     * @param chemin Le chemin vers lequel naviguer.
+     */
+    const handleNavigation = (chemin: string) => {
+      viderReponseOllama();
       navigate(chemin);
-    }
+    };
 
     return (
       <List
@@ -45,6 +53,7 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
         >
           <ListItemText primary="Page principale" />
         </ListItemButton>
+
         <ListItemButton
           component="a"
           selected={location.pathname === "/traducteur"}

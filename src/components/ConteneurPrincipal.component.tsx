@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import { Outlet } from "react-router-dom";
 import { OllamaContext } from "@/contexts/Ollama.context";
+import ConteneurPage from "./ConteneurPage.components";
 
 interface IConteneurPrincipalProps {}
 
@@ -82,11 +83,9 @@ export const ConteneurPrincipal = (
         ) : (
           <></>
         )}
-        <Outlet
-          context={{
-            appBarTopHeight: _.isNull(appBarTopHeight) ? 0 : appBarTopHeight,
-            navBarWidth: _.isNull(navBarWidth) ? 0 : navBarWidth,
-          }}
+        <ConteneurPage
+          appBarTopHeight={_.isNull(appBarTopHeight) ? 0 : appBarTopHeight}
+          navBarWidth={_.isNull(navBarWidth) ? 0 : navBarWidth}
         />
       </Grid>
     </Grid>
