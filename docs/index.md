@@ -2,34 +2,36 @@
 title: Accueil
 hide:
   - navigation
-  - toc
   - title
 ---
 
-# Welcome to MkDocs
+# Documentation pour l'application d'outils linguistique
 
-```py title="add_numbers.py" 
-# Function to add two numbers
-def add_two_numbers(num1, num2):
-    return num1 + num2
 
-# Example usage
-result = add_two_numbers(5, 3)
-print('The sum is:', result)
-```
+## Description du projet
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Ce projet est l'épreuve finale pour mon DEC (diplôme d'étude collégiale) de la technique en informatique au Cégep de Victoriaville.
 
-## Commands
+Ce projet a été réalisé dans le cadre du cours de Projet personnel de la technique avec la contrainte qu'il doit être faisable pour environ 45h.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Technologies utilisées
 
-## Project layout
+### Vite :simple-vite:
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+J'ai utilisé le générateur Vite pour simplifié la mise en place de l'architecture des fichiers du projet. De plus, Vite est connu pour son respect globale de la sécurité et des dernières normes en programmation avec par exemple Eslint d'intégrer.
+
+### Electron :simple-electron:
+
+J'ai choisi Electron comme backend et cadriciel pour compiler le projet en exécutable, car j'ai déjà produit un projet dans un ancien cours avec celui-ci. De surcroit, dû à la limite de temps, je n'ai pas voulu prendre Tauri vu que je n'ai jamais produit de logiciel avec ce cadriciel. Et ce malgré connaissance de cause que probablement Tauri aurait été plus léger et adapté à la taille de ce projet.
+
+### React :simple-react:
+
+J'ai choisi comme frontend React,car c'est le cadriciel frontal avec lequel que j'ai le plus travaillé récement et qui est celui que je maitrise le mieux pour les technologies web. De plus, il y a la bibliothèque nommée [MUI](https://mui.com/) qui offre des composants React déjà stylisés pour rendre un rendu d'interface propre plus rapidement.
+
+### TypeScript :material-language-typescript:
+
+Par défaut la génération d'Electron avec React de Vite mets en place TypeScript. Cependant, c'est aussi un choix de mon côté pour prendre ce langage de programmation au lieu de JavaScript. En effet, TypeScript permets d'avoir une meilleur stabilité sur le long terme avec la détections d'erreur et de typage strict.
+
+### Ollama :simple-ollama:
+
+J'ai décidé d'utiliser les services et l'API locaux d'Ollama pour utiliser faire tourner les outils linguistiques localement, sans besoins à une connection internet (lorsque les installations sont terminées) et 100% privée.

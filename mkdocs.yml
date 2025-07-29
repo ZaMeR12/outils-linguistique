@@ -26,6 +26,8 @@ theme:
     - navigation.expand
     - navigation.sections
     - navigation.footer
+    - content.code.annotate
+    - content.code.copy
 
 markdown_extensions:
   - attr_list
@@ -43,9 +45,10 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - admonition
   - pymdownx.inlinehilite
   - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
   - pymdownx.details
   - def_list
   - pymdownx.tasklist:
