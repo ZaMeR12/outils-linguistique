@@ -1,7 +1,7 @@
 import FormulaireParam from "@/components/settings/FormulaireParam.components";
 import { Grid, Typography } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
-import { IOutletContext } from "@/types/IOutletContext.types";
+import { IOutletContext } from "@/models/Outlet.models";
 
 const PagePrincipale = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();

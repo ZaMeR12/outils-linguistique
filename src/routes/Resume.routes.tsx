@@ -1,9 +1,9 @@
-import TradFormulaire from "@/components/tools/TradFormulaire.components";
 import { Grid, Typography } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 import { IOutletContext } from "@/models/Outlet.models";
+import SynthFormulaire from "@/components/tools/SynthFormulaire.components";
 
-const Traducteur = () => {
+const Resume = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
   return (
     <div
@@ -23,19 +23,19 @@ const Traducteur = () => {
       >
         <Grid size={12} textAlign={"center"}>
           <Typography variant="h4" component="h4">
-            Traducteur
+            Synthétiseur de texte
           </Typography>
         </Grid>
         <Grid size={12} paddingBottom={2}>
           <Typography variant="body1" component="p">
-            Cette page est dédiée à la traduction de textes.
+            Cette page est dédiée à la synthèse de textes.
           </Typography>
         </Grid>
         <Grid size={12}>
-          <TradFormulaire />
+          <SynthFormulaire />
         </Grid>
       </Grid>
     </div>
   );
 };
-export default Traducteur;
+export default Resume;

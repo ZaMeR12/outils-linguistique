@@ -10,7 +10,7 @@ import { IModeleOllama } from "@/models/Ollama.models";
 import _ from "lodash";
 import { Message } from "ollama";
 import { ListResponse, Ollama } from "ollama/browser";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 export type OllamaContextType = {
@@ -18,7 +18,8 @@ export type OllamaContextType = {
   setOllamaUrl: (url: URL) => void;
   modeles: IModeleOllama[];
   chercherModeles: () => Promise<void>;
-  ollamaEstCharge: boolean;
+  ollamaEstChargeNav: boolean;
+  ollamaEstChargeOutil: boolean;
   arreterReponseOllama: () => void;
   genererReponseOllama: (
     modele: IModeleOllama,
@@ -37,12 +38,14 @@ export type OllamaContextType = {
 
 const localOllamaUrl: URL = new URL("http://127.0.0.1:11434");
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const OllamaContext = React.createContext<OllamaContextType>({
   ollamaUrl: localOllamaUrl,
   setOllamaUrl: () => {},
   modeles: [],
   chercherModeles: async () => {},
-  ollamaEstCharge: false,
+  ollamaEstChargeNav: false,
+  ollamaEstChargeOutil: false,
   arreterReponseOllama: () => {},
   genererReponseOllama: async () => {},
   ollamaErreur: "",
@@ -79,11 +82,13 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
       temperature: 0.7,
     });
 
-  const [ollamaEstCharge, setOllamaEstCharge] = useState<boolean>(false);
+  const ollamaEstChargeNav = useRef<boolean>(false);
+  const [ollamaEstChargeOutil, setOllamaEstChargeOutil] =
+    useState<boolean>(false);
 
   const [ollamaErreur, setOllamaErreur] = useState<string>("");
 
-  const reponseOllamaRef = useRef("");
+  const [reponseOllama, setReponseOllama] = useState<string>("");
 
   const [modeles, setModeles] = useLocalStorage<IModeleOllama[]>("modeles", [
     {
@@ -101,25 +106,7 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
    *  initialise la liste des modèles.
    * @author ZaMeR_12
    */
-  const miseAjourOllamaServeur = async () => {
-    try {
-      ollama.current = new Ollama({ host: ollamaUrl.toString() });
-      chercherModeles();
-      setOllamaErreur("");
-      setOllamaEstCharge(true);
-      console.log("Mise à jour de l'instance Ollama avec l'URL:", ollamaUrl);
-    } catch (error) {
-      setOllamaErreur("Il y a un problème de connexion au serveur d'Ollama.");
-      setOllamaEstCharge(false);
-    }
-  };
-
-  /**
-   * Cherche les modèles disponibles sur le serveur Ollama.
-   * Cette fonction utilise l'instance Ollama pour récupérer la liste des modèles
-   * @author ZaMeR_12
-   */
-  const chercherModeles = async () => {
+  const chercherModeles = useCallback(async () => {
     try {
       const listeModelePure: ListResponse = await ollama.current.list();
       let listeModeleTemp: IModeleOllama[] = [];
@@ -139,7 +126,22 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
         "Échec de la communication avec le serveur d'Ollama. Vérifiez l'URL et le statut du serveur."
       );
     }
-  };
+  }, [setModeles]);
+
+  const miseAjourOllamaServeur = useCallback(async () => {
+    try {
+      ollama.current = new Ollama({ host: ollamaUrl.toString() });
+      chercherModeles();
+      setOllamaErreur("");
+      ollamaEstChargeNav.current = true;
+      setOllamaEstChargeOutil(true);
+      console.log("Mise à jour de l'instance Ollama avec l'URL:", ollamaUrl);
+    } catch (error) {
+      setOllamaErreur("Il y a un problème de connexion au serveur d'Ollama.");
+      ollamaEstChargeNav.current = false;
+      setOllamaEstChargeOutil(false);
+    }
+  }, [ollamaUrl, chercherModeles]);
 
   /**
    * Arrête la réponse d'Ollama.
@@ -163,8 +165,9 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
     modele: IModeleOllama,
     messages: Message[]
   ) => {
-    reponseOllamaRef.current = "";
-    setOllamaEstCharge(false);
+    setReponseOllama("");
+    ollamaEstChargeNav.current = false;
+    setOllamaEstChargeOutil(false);
     ollama.current
       .chat({
         model: modele.nom,
@@ -175,20 +178,21 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
         },
       })
       .then(async (stream) => {
-        // stream = _stream;
         console.log("Ollama stream a commencé.");
-        //Actualize the message on the chat while the response of ollama is streming.
         for await (const chunk of stream) {
-          reponseOllamaRef.current += chunk.message.content;
+          setReponseOllama((prev) => prev + chunk.message.content);
         }
         setOllamaErreur("");
-        setOllamaEstCharge(true);
+        ollamaEstChargeNav.current = true;
+        setOllamaEstChargeOutil(true);
+        console.log("Ollama stream terminé.");
       })
       .catch((error) => {
         if (error.name == "AbortError") {
           console.log("Ollama stream a été interrompu.");
           setOllamaErreur("");
-          setOllamaEstCharge(true);
+          ollamaEstChargeNav.current = true;
+          setOllamaEstChargeOutil(true);
         } else {
           console.log(error);
           setOllamaErreur(
@@ -203,23 +207,27 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
    * Cette fonction réinitialise la référence de la réponse d'Ollama à une chaîne vide.
    */
   const viderReponseOllama = () => {
-    reponseOllamaRef.current = "";
+    setReponseOllama("");
   };
 
   useEffect(() => {
-    setOllamaEstCharge(false);
+    ollamaEstChargeNav.current = false;
+    setOllamaEstChargeOutil(false);
   }, []);
 
   useEffect(() => {
+    ollamaEstChargeNav.current = false;
+    setOllamaEstChargeOutil(false);
     miseAjourOllamaServeur();
-  }, [ollamaUrl]);
+  }, [ollamaUrl, miseAjourOllamaServeur]);
 
   const values = {
     ollamaUrl,
     setOllamaUrl,
     modeles,
     chercherModeles,
-    ollamaEstCharge,
+    ollamaEstChargeNav: ollamaEstChargeNav.current,
+    ollamaEstChargeOutil: ollamaEstChargeOutil,
     arreterReponseOllama,
     genererReponseOllama,
     ollamaErreur,
@@ -229,7 +237,7 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
     setResumeModele,
     reformulationModele: reformulationModele,
     setReformulationModele,
-    reponseOllama: reponseOllamaRef.current,
+    reponseOllama,
     viderReponseOllama,
   };
 

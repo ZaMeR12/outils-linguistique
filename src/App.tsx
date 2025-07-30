@@ -4,6 +4,7 @@ import { ConteneurPrincipal } from "./components/ConteneurPrincipal.component";
 import PagePrincipale from "./routes/PagePrincipale.routes";
 import OllamaProvider from "./contexts/Ollama.context.tsx";
 import Traducteur from "./routes/Traducteur.routes.tsx";
+import Resume from "./routes/Resume.routes.tsx";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Route path="/" element={<ConteneurPrincipal />}>
             <Route index element={<PagePrincipale />} />
             <Route path="traducteur" element={<Traducteur />} />
-            <Route path="resume" element={<div>Résumé de texte</div>} />
+            <Route path="resume" element={<Resume />} />
             <Route path="reformulation" element={<div>Reformulation</div>} />
           </Route>
         </Routes>

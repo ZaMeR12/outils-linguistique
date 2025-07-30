@@ -1,13 +1,10 @@
-import { Alert, Grid } from "@mui/material";
+import { Alert, AlertTitle, Grid } from "@mui/material";
 import { AppBarTop } from "./utils/AppBarTop.components";
 import { NavBar } from "./utils/NavBar.components";
 import { useContext, useEffect, useRef, useState } from "react";
 import _ from "lodash";
-import { Outlet } from "react-router-dom";
 import { OllamaContext } from "@/contexts/Ollama.context";
 import ConteneurPage from "./ConteneurPage.components";
-
-interface IConteneurPrincipalProps {}
 
 /**
  * Composant de conteneur principal des autres composants de l'application.
@@ -15,12 +12,8 @@ interface IConteneurPrincipalProps {}
  * @param props Les propriétés du composant.
  * @returns Un élément JSX représentant le conteneur principal.
  */
-export const ConteneurPrincipal = (
-  props: IConteneurPrincipalProps
-): JSX.Element => {
-  const {
-    ollamaErreur, // Erreur de l'OllamaContext
-  } = useContext(OllamaContext);
+export const ConteneurPrincipal = (): JSX.Element => {
+  const { ollamaErreur, ollamaEstChargeOutil } = useContext(OllamaContext);
 
   const appBarTopRef = useRef<HTMLDivElement>(null); // Référence pour la barre d'application supérieure
   // État pour stocker la hauteur de l'élément AppBarTop
@@ -76,6 +69,13 @@ export const ConteneurPrincipal = (
         />
       </Grid>
       <Grid size={10}>
+        {!ollamaEstChargeOutil && ollamaErreur === "" ? (
+          <Alert severity="info" sx={{ margin: 2 }}>
+            {" "}
+            <AlertTitle>Information</AlertTitle>
+            Ollama est en cours de chargement. Veuillez patienter...
+          </Alert>
+        ) : null}
         {ollamaErreur !== "" ? (
           <Alert severity="error" sx={{ margin: 2 }}>
             {ollamaErreur}

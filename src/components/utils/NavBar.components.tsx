@@ -14,7 +14,7 @@ interface INavBarProps {
  */
 export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
   (props, ref) => {
-    const { ollamaEstCharge, ollamaErreur, viderReponseOllama } =
+    const { ollamaEstChargeNav, ollamaErreur, viderReponseOllama } =
       useContext(OllamaContext);
 
     const location = useLocation();
@@ -49,7 +49,6 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           component="a"
           selected={location.pathname === "/"}
           onClick={() => handleNavigation("/")}
-          disabled={!ollamaEstCharge && ollamaErreur === ""}
         >
           <ListItemText primary="Page principale" />
         </ListItemButton>
@@ -60,7 +59,7 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           onClick={() => {
             handleNavigation("/traducteur");
           }}
-          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+          disabled={!ollamaEstChargeNav || ollamaErreur !== ""}
         >
           <ListItemText primary="Traducteur" />
         </ListItemButton>
@@ -70,9 +69,9 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           onClick={() => {
             handleNavigation("/resume");
           }}
-          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+          disabled={!ollamaEstChargeNav || ollamaErreur !== ""}
         >
-          <ListItemText primary="Résumé de texte" />
+          <ListItemText primary="Synthèse de texte" />
         </ListItemButton>
         <ListItemButton
           component="a"
@@ -80,7 +79,7 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           onClick={() => {
             handleNavigation("/reformulation");
           }}
-          disabled={!ollamaEstCharge || ollamaErreur !== ""}
+          disabled={!ollamaEstChargeNav || ollamaErreur !== ""}
         >
           <ListItemText primary="Reformulation" />
         </ListItemButton>

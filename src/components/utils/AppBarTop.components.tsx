@@ -1,5 +1,4 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 
 import { forwardRef } from "react";
 interface IAppBarTopProps {}
@@ -10,11 +9,15 @@ interface IAppBarTopProps {}
  * @param props Les propriétés du composant.
  */
 export const AppBarTop = forwardRef<HTMLDivElement, IAppBarTopProps>(
-  (props, ref) => {
+  (_props, ref) => {
     return (
       <AppBar ref={ref} position="static">
         <Toolbar>
-          <HomeRepairServiceIcon sx={{ mr: 2 }} />
+          <img
+            src="/icon-512.png"
+            alt="Logo de l'application"
+            style={{ width: 40, height: 40, marginRight: 10 }}
+          />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Outils linguistiques
           </Typography>

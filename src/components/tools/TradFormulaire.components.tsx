@@ -5,17 +5,22 @@ import {
   genererContexteTraduction,
   LangueTraducteurEng,
 } from "@/utils/ContexteSyteme";
-import { Button, Card, Grid, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  Grid,
+  LinearProgress,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import { Message } from "ollama/browser";
 import { useContext, useEffect } from "react";
 import useLocalStorage from "use-local-storage";
 
-interface ITradFormulaireProps {}
-
-const TradFormulaire = (props: ITradFormulaireProps) => {
+const TradFormulaire = () => {
   const {
     ollamaErreur,
-    ollamaEstCharge,
+    ollamaEstChargeOutil,
     genererReponseOllama,
     reponseOllama,
     arreterReponseOllama,
@@ -111,10 +116,11 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
   };
 
   useEffect(() => {
+    console.log("Réponse d'Ollama trad:", reponseOllama);
     if (reponseOllama && reponseOllama !== traduction) {
       setTraduction(reponseOllama);
     }
-  }, [reponseOllama]);
+  }, [reponseOllama, setTraduction, traduction]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>
@@ -124,7 +130,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             fullWidth
             label="Langue d'origine"
             variant="outlined"
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             select
             value={langueOrigine}
             sx={{ paddingBottom: 2 }}
@@ -145,7 +151,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             variant="outlined"
             error={!!ollamaErreur}
             helperText={ollamaErreur}
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             multiline
             required
             rows={4}
@@ -166,7 +172,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             fullWidth
             label="Langue de traduction"
             variant="outlined"
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             select
             value={langueTrad}
             sx={{ paddingBottom: 2 }}
@@ -187,7 +193,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             variant="outlined"
             error={!!ollamaErreur}
             helperText={ollamaErreur}
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             multiline
             rows={4}
             placeholder="La traduction apparaîtra ici..."
@@ -202,11 +208,18 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
             }}
           />
         </Grid>
+        {!ollamaEstChargeOutil ? (
+          <Grid size={12} padding={2} textAlign="center">
+            <LinearProgress color="secondary" />
+          </Grid>
+        ) : (
+          <></>
+        )}
         <Grid size={4}>
           <Button
             variant="contained"
             color="primary"
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             onClick={onClickTraduire}
           >
             Traduire
@@ -216,7 +229,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
           <Button
             variant="contained"
             color="warning"
-            disabled={!ollamaEstCharge || ollamaErreur !== ""}
+            disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             onClick={onClickNettoyer}
           >
             Nettoyer
@@ -226,7 +239,7 @@ const TradFormulaire = (props: ITradFormulaireProps) => {
           <Button
             variant="contained"
             color="error"
-            disabled={ollamaEstCharge}
+            disabled={ollamaEstChargeOutil}
             onClick={() => arreterReponseOllama()}
           >
             Arrêter la réponse

@@ -11,9 +11,7 @@ import {
 import { useContext, useState } from "react";
 import isURL from "validator/lib/isURL";
 
-interface IFormulaireParamProps {}
-
-const FormulaireParam = (props: IFormulaireParamProps) => {
+const FormulaireParam = () => {
   const {
     ollamaUrl,
     setOllamaUrl,
@@ -80,6 +78,17 @@ const FormulaireParam = (props: IFormulaireParamProps) => {
               helperText={erreurUrl}
               onChange={onChangeOllamaUrl}
             />
+          </Grid>
+          <Grid size={8} sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                setOllamaUrl(new URL(url));
+              }}
+            >
+              Recharger Ollama
+            </Button>
           </Grid>
           <Grid size={12}>
             <></>

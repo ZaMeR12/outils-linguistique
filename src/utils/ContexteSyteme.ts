@@ -15,10 +15,10 @@ export enum LangueTraducteurEng {
 }
 
 export enum LangueTraducteurFr {
-  FR_CA = "canadien français",
-  FR_FR = "français de France",
-  EN_US = "anglais américain",
-  EN_GB = "anglais britannique",
+  FR_CA = "Français canadien",
+  FR_FR = "Français de France",
+  EN_US = "Anglais américain",
+  EN_GB = "Anglais britannique",
 }
 
 /**
@@ -122,6 +122,7 @@ export const correspondanceStyles: Record<StyleEcritureEng, StyleEcritureFr> = {
  * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
  * en tant qu'expert en traduction de langues, en tenant compte des spécificités culturelles
  * comme les différences entre le français canadien et le français de France.
+ * @author ZaMeR_12
  * @param langOrigine Langue d'origine de la traduction.
  * @param langTrad Langue de destination de la traduction.
  * @param texteInitial Texte à traduire.
@@ -132,14 +133,21 @@ export const genererContexteTraduction = (
   langTrad: LangueTraducteurEng,
   texteInitial: string
 ): Message => {
+  /**
+   * Génération du contexte système a été optimisé par Github Copilot.
+   * @author GitHub. (2025). GitHub Copilot (version juillet 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
+   */
   return {
     role: RoleMessageOllama.SYSTEM,
-    content: `Translate the following text from ${langOrigine} to ${langTrad}, taking into account regional and cultural word differences. For example, ensure that Canadian French uses terms like "melon d'eau" instead of "pastèque" used in French from France. Only provide the translated text, nothing else: "${texteInitial}"`,
+    content: `Translate the following text from ${langOrigine} to ${langTrad}, ensuring strict adherence to all regional and cultural word differences. Pay close attention to linguistic nuances, idiomatic expressions, and vocabulary specific to the target region. For example, Canadian French uses terms like "melon d'eau" instead of "pastèque" in French from France, but this is just one of many differences to consider. Be comprehensive and consistent in applying these distinctions. Only provide the translated text, nothing else: "${texteInitial}"`,
   };
 };
 
 /**
  * Génère le contexte de résumé pour Ollama.
+ * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
+ * en tant qu'expert en résumé de texte, en adaptant le résumé au contexte régional
+ * et culturel de la langue cible.
  * @author ZaMeR_12
  * @param texteInitial Texte à résumer.
  * @param langue Langue de destination du résumé.
@@ -149,14 +157,22 @@ export const genererContexteResume = (
   texteInitial: string,
   langue: LangueTraducteurEng
 ): Message => {
+  /**
+   * Génération du contexte système a été optimisé par Github Copilot.
+   * @author GitHub. (2025). GitHub Copilot (version juillet 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
+   */
   return {
     role: RoleMessageOllama.SYSTEM,
-    content: `You are a text summarization expert. Your task is to summarize the following text to ${langue}: "${texteInitial}"`,
+    content: `You are a text summarization expert. Your task is to summarize the following text to ${langue} as briefly as possible while strictly preserving linguistic variants and nuances. Ensure the summary is concise and does not exceed the minimum necessary words. Use regionally and culturally appropriate words for the chosen language variant. For example, use "melon d'eau" instead of "pastèque" for Canadian French: "${texteInitial}"`,
   };
 };
 
 /**
  * Génère le contexte de reformulation pour Ollama avec prise en compte des mots régionaux/culturels.
+ * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
+ * en tant qu'expert en reformulation de texte, en tenant compte des spécificités culturelles
+ * comme les différences entre le français canadien et le français de France.
+ * @author ZaMeR_12
  * @param texteInitial Texte à reformuler.
  * @param langue Langue de destination de la reformulation.
  * @param limiteMots Limite de mots pour la reformulation (optionnel).
@@ -169,6 +185,10 @@ export const genererContexteReformulation = (
   limiteMots?: number | undefined,
   style?: StyleEcritureEng | undefined
 ): Message => {
+  /**
+   * Génération du contexte système a été optimisé par Github Copilot.
+   * @author GitHub. (2025). GitHub Copilot (version juillet 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
+   */
   return {
     role: RoleMessageOllama.SYSTEM,
     content: `You are a text reformulation expert. Your task is to reformulate the following text to ${langue}: "${texteInitial}"${
