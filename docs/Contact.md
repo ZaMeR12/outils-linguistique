@@ -5,35 +5,53 @@ hide:
 
 # Contact
 
-## Qui suis-je?
+## Qui suis-je ?
 
+Bonjour, je suis connu sur internet sous le pseudonyme ZaMeR. Développeur passionné, je m'appuie principalement sur des principes de programmation orientée objet (PPO) ou des stratégies de développement similaires depuis plus de 4 ans.
 
-Bonjour, on me nomme sur internet ZaMeR. Je suis un développeur principalement dirigé par des principes de PPO (programmation orienté objects) ou à statégies de développement similaire depuis plus de 4 ans.
+Grâce à mon DEC (Diplôme d'études Collégiales) en technique informatique, j'ai acquis une solide maîtrise des bases de la programmation et des algorithmes.
 
-J'ai une maitrise des bases de programmation et des algorithmes du à mon DEC (diplôme d'études collégiales) pour la technique en informatiques.
-
-J'ai une grande connaissance sur plusieurs langages de programmations.
+Je possède une expertise dans plusieurs langages de programmation, notamment :
 
 - TypeScript
 - Kotlin
 - Java
 - SwiftUI
 - Python
-- Html/Css/Js
-- Php
+- HTML/CSS/JavaScript
+- PHP
+- C#
+- C++
 
-J'ai aussi une bonne adaptation sur de multiples bases de données.
+Je suis également à l'aise avec différentes bases de données de différents types :
 
-- Relationnelles
+- Bases relationnelles :
     - MariaDB
     - MySQL
     - SQLite
-- Orienté documents
+- Bases orientées documents :
     - MongoDB
+- Bases de données en mémoire :
+    - InnoDB
 
-P.S: Les listes ne sont pas exhaustives.
+*Note : Ces listes ne sont pas exhaustives.*
 
+## Vous souhaitez échanger avec moi ?
 
-## Vous souhaitez discuter avec moi?
+Je serais ravi de discuter avec vous ! Que ce soit pour parler de mes projets, partager des idées ou échanger des connaissances entre développeurs, n'hésitez pas à me contacter. Je suis toujours ouvert à de nouvelles opportunités d'apprentissage et de collaboration.
 
-Il n'y a pas de problème avec cela. Je suis ouvert à pouvoir discuter avec vous sur mes projets et même s'échanger des connaissances entre développeur.
+## Autres projets
+
+### [Docker Dbs](https://github.com/ZaMeR12/docker_dbs){: target="_blank"}
+Un projet qui facilite la gestion de plusieurs bases de données à l'aide de conteneurs Docker.
+
+<!-- ### [Enkiria Wiki](https://zamer12.github.io/Enkiria-Wiki/){: target="_blank"}
+Un wiki pour un serveur de jeu Minecraft moddé avec un modpack personnalisé incluant Pixelmon.
+Ce wiki est conçu pour aider les joueurs à comprendre les mécaniques du jeu et à s'orienter dans le modpack.
+Dont les formes régionales de la Région d'Enkiria. -->
+
+### [Hangman Skeleton](https://github.com/ZaMeR12/hangman_skeleton_react){: target="_blank"}
+Un projet de jeu de pendu en React, qui utilise les hooks pour gérer l'état du jeu et les interactions utilisateur. Il est multilingue et permet aux utilisateurs de jouer dans différentes langues. (Anglais, Français)
+
+### [Ai Pngtuber Ollama](https://github.com/ZaMeR12/ai_pngtuber_ollama){: target="_blank"}
+Un projet beta qui utilise l'IA pour incarner un personnage grâce au contexte de personnalité fourni par l'utilisateur. L'application embarque de la synthèse vocale et de l'animation de deux images pour créer un personnage animé qui peut interagir avec l'utilisateur. Initialement il a été pensé pour être utilisé en intégration Twitch (malheureusement abandonnée), mais il peut être utilisé dans d'autres contextes ou dans des streams si c'est le créateur de contenu qui l'utilise.

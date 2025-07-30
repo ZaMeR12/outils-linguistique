@@ -64,6 +64,10 @@ plugins:
 
 copyright: Copyright ©️ Documentation par ZaMeR12, 2025
 
+extra_css:
+  - https://fonts.googleapis.com/css2?family=Parkinsans:wght@400;500;600;700&display=swap
+  - https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap
+  
 extra:
   social:
     - icon: material/github
