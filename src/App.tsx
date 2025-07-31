@@ -1,5 +1,5 @@
 // import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ConteneurPrincipal } from "./components/ConteneurPrincipal.component";
 import PagePrincipale from "./routes/PagePrincipale.routes";
 import OllamaProvider from "./contexts/Ollama.context.tsx";
@@ -8,7 +8,7 @@ import Resume from "./routes/Resume.routes.tsx";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <OllamaProvider>
         <Routes>
           <Route path="/" element={<ConteneurPrincipal />}>
@@ -19,7 +19,7 @@ function App() {
           </Route>
         </Routes>
       </OllamaProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

@@ -72,6 +72,10 @@ const SynthFormulaire = () => {
     viderReponseOllama();
   };
 
+  /**
+   * Gère le clic sur le bouton "Synthétiser" pour générer un résumé du texte initial.
+   * @author ZaMeR12
+   */
   const onClickResume = async () => {
     if (texteInitial.trim() !== "") {
       const texteInitialMessage: Message = {

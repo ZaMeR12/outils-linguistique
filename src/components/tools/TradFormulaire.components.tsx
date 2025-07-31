@@ -54,7 +54,14 @@ const TradFormulaire = () => {
   const onChangeLangueOrigine = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setLangueOrigine(event.target.value as LangueTraducteurEng);
+    const nouvelleLangue = event.target.value as LangueTraducteurEng;
+
+    if (nouvelleLangue !== langueOrigine) {
+      if (langueTrad === nouvelleLangue) {
+        setLangueTrad(langueOrigine);
+      }
+      setLangueOrigine(nouvelleLangue);
+    }
   };
 
   /**
@@ -65,7 +72,14 @@ const TradFormulaire = () => {
   const onChangeLangueTrad = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setLangueTrad(event.target.value as LangueTraducteurEng);
+    const nouvelleLangue = event.target.value as LangueTraducteurEng;
+
+    if (nouvelleLangue !== langueTrad) {
+      if (langueOrigine === nouvelleLangue) {
+        setLangueOrigine(langueTrad);
+      }
+      setLangueTrad(nouvelleLangue);
+    }
   };
 
   /**

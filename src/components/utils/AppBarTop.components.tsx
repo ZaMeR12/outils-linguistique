@@ -14,7 +14,7 @@ export const AppBarTop = forwardRef<HTMLDivElement, IAppBarTopProps>(
       <AppBar ref={ref} position="static">
         <Toolbar>
           <img
-            src="/icon-512.png"
+            src="icon-512.png"
             alt="Logo de l'application"
             style={{ width: 40, height: 40, marginRight: 10 }}
           />

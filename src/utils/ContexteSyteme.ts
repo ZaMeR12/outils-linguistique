@@ -64,25 +64,25 @@ export enum StyleEcritureEng {
 }
 
 export enum StyleEcritureFr {
-  AUCUNE = "aucun",
-  VICTORIEN = "victorien",
-  PIRATE = "pirate",
-  NOBLE = "noble",
-  PAYSAN = "paysan",
-  MEDIEVAL = "médiéval",
-  FUTURISTE = "futuriste",
-  STEAMPUNK = "steampunk",
-  ROMANTIQUE = "romantique",
-  GUERRIER = "guerrier",
-  SORCIER = "sorcier",
-  DETECTIVE = "détective",
-  SCIENTIFIQUE = "scientifique",
-  HUMORISTIQUE = "humoristique",
-  SOMBRE = "sombre",
-  ENTHOUSIASTE = "enthousiaste",
-  SERIEUX = "sérieux",
-  POETIQUE = "poétique",
-  MODERNE = "moderne",
+  AUCUNE = "Aucun",
+  VICTORIEN = "Victorien",
+  PIRATE = "Pirate",
+  NOBLE = "Noble",
+  PAYSAN = "Paysan",
+  MEDIEVAL = "Médiéval",
+  FUTURISTE = "Futuriste",
+  STEAMPUNK = "Steampunk",
+  ROMANTIQUE = "Romantique",
+  GUERRIER = "Guerrier",
+  SORCIER = "Sorcier",
+  DETECTIVE = "Détective",
+  SCIENTIFIQUE = "Scientifique",
+  HUMORISTIQUE = "Humoristique",
+  SOMBRE = "Sombre",
+  ENTHOUSIASTE = "Enthousiaste",
+  SERIEUX = "Sérieux",
+  POETIQUE = "Poétique",
+  MODERNE = "Moderne",
 }
 
 /**
@@ -168,31 +168,43 @@ export const genererContexteResume = (
 };
 
 /**
- * Génère le contexte de reformulation pour Ollama avec prise en compte des mots régionaux/culturels.
- * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
- * en tant qu'expert en reformulation de texte, en tenant compte des spécificités culturelles
- * comme les différences entre le français canadien et le français de France.
+ * Génère le contenu pour le contexte de reformulation.
  * @author ZaMeR_12
  * @param texteInitial Texte à reformuler.
- * @param langue Langue de destination de la reformulation.
- * @param limiteMots Limite de mots pour la reformulation (optionnel).
- * @param style Style d'écriture souhaité (optionnel).
- * @returns Message système pour Ollama.
+ * @param langue Langue de destination.
+ * @param limiteMots Limite de mots (optionnel).
+ * @param style Style d'écriture (optionnel).
+ * @returns Contenu formaté pour le message système.
  */
+const genererContenuReformulation = (
+  texteInitial: string,
+  langue: LangueTraducteurEng,
+  limiteMots?: number,
+  style?: StyleEcritureEng
+): string => {
+  let contenu = `You are a text reformulation expert. Your task is to reformulate the following text to ${langue}: "${texteInitial}"`;
+  if (limiteMots) {
+    contenu += ` Please limit your response to ${limiteMots} words.`;
+  }
+  if (style) {
+    contenu += ` Please use the ${style} writing style.`;
+  }
+  return contenu;
+};
+
 export const genererContexteReformulation = (
   texteInitial: string,
   langue: LangueTraducteurEng,
   limiteMots?: number | undefined,
   style?: StyleEcritureEng | undefined
 ): Message => {
-  /**
-   * Génération du contexte système a été optimisé par Github Copilot.
-   * @author GitHub. (2025). GitHub Copilot (version juillet 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
-   */
   return {
     role: RoleMessageOllama.SYSTEM,
-    content: `You are a text reformulation expert. Your task is to reformulate the following text to ${langue}: "${texteInitial}"${
-      limiteMots ? ` Please limit your response to ${limiteMots} words.` : ""
-    }${style ? ` Please use the ${style} writing style.` : ""}`,
+    content: genererContenuReformulation(
+      texteInitial,
+      langue,
+      limiteMots,
+      style
+    ),
   };
 };

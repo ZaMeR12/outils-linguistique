@@ -1,11 +1,10 @@
 import { app, BrowserWindow } from "electron";
-import { createRequire } from "node:module";
+// import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const require = createRequire(import.meta.url);
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // The built directory structure
 //
@@ -17,6 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // │ │ └── preload.mjs
 // │
 process.env.APP_ROOT = path.join(__dirname, "..");
+console.log("APP_ROOT:", process.env.APP_ROOT);
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 export const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -31,7 +31,7 @@ let win: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, "icon-512.png"),
+    icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     resizable: true,
     height: 850,
     width: 1050,
@@ -55,7 +55,7 @@ function createWindow() {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
     // win.loadFile('dist/index.html')
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
+    win.loadFile(path.join(RENDERER_DIST, "index.html"), { hash: "/" });
   }
 }
 

@@ -73,7 +73,7 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
         >
           <ListItemText primary="Synthèse de texte" />
         </ListItemButton>
-        <ListItemButton
+        {/* <ListItemButton
           component="a"
           selected={location.pathname === "/reformulation"}
           onClick={() => {
@@ -82,7 +82,7 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           disabled={!ollamaEstChargeNav || ollamaErreur !== ""}
         >
           <ListItemText primary="Reformulation" />
-        </ListItemButton>
+        </ListItemButton> */}
       </List>
     );
   }

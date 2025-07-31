@@ -67,18 +67,18 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
 
   const [traductionModele, setTraductionModele] =
     useLocalStorage<IModeleOllama>("traductionModele", {
-      nom: "Défaut",
+      nom: "gemma3:4b",
       temperature: 0.7,
     });
 
   const [resumeModele, setResumeModele] = useLocalStorage<IModeleOllama>(
     "resumeModele",
-    { nom: "Défaut", temperature: 0.7 }
+    { nom: "gemma3:4b", temperature: 0.7 }
   );
 
   const [reformulationModele, setReformulationModele] =
     useLocalStorage<IModeleOllama>("reformulationModele", {
-      nom: "Défaut",
+      nom: "gemma3:4b",
       temperature: 0.7,
     });
 
@@ -92,7 +92,7 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
 
   const [modeles, setModeles] = useLocalStorage<IModeleOllama[]>("modeles", [
     {
-      nom: "defaut",
+      nom: "gemma3:4b",
       temperature: 0.7,
     },
   ]);
