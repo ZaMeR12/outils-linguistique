@@ -57,6 +57,8 @@
 	- [x] Après fermeture de l'application
 	- [x] Lors de changement de page
 - [x] La réponse d'Ollama s'actualise en temps réelle.
+- [x] Lorsqu'on choisi la même langue de traduction pour la langue d'origine il y a un échange de langue qui se fait dans la logique
+	- [x] Vice-versa pour le cas opposée (dans  le cas que c'est pour le changement de la langue de traduction)
 
 ### Synthèse de texte
 
@@ -88,5 +90,25 @@
 - [x] La réponse d'Ollama s'actualise en temps réelle.
 ## Compilation
 
-- [ ] Capable de construire l'installateur du premier livrable
+- [x] Capable de construire l'installateur du premier livrable
+	- [x] Windows
+		- [x] Zip
+		- [x] 7z
+		- [x] Installateur
+		- [x] Unpacked
+	- [x] Linux
+		- [x] Unpacked
+		- [x] Tar.gz
+		- [x] Deb
+		- [x] Image app
 - [ ] Capable de construire l'installateur du deuxième livrable
+	- [ ] Windows
+		- [ ] Zip
+		- [ ] 7z
+		- [ ] Installateur
+		- [ ] Unpacked
+	- [ ] Linux
+		- [ ] Unpacked
+		- [ ] Tar.gz
+		- [ ] Deb
+		- [ ] Image app
