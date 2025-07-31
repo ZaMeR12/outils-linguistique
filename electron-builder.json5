@@ -1,9 +1,16 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  files: [
+    "dist/**",
+    "dist-electron/**",
+    "public/favicon.ico",
+    "public/icon-512.png",
+    "build/**"
+  ],
   appId: "outils_linguistiques_zam",
   asar: true,
-  productName: "Outils Linguistiques",
+  productName: "OutilsLinguistiques",
   copyright: "Copyright © 2025 ZaMeR_12",
   directories: {
     output: "release/${version}",
@@ -16,7 +23,7 @@
   win: {
     target: ["nsis", "zip", "7z"],
     icon: "public/favicon.ico",
-    artifactName: "${productName}-Windows-${version}-Setup.${ext}",
+    artifactName: "${productName}-Windows-${version}.${ext}",
   },
   nsis: {
     oneClick: false,
@@ -24,17 +31,30 @@
     perMachine: false,
     allowToChangeInstallationDirectory: true,
     deleteAppDataOnUninstall: true,
+    artifactName: "${productName}-Windows-${version}-Setup.${ext}",
   },
   linux: {
-    target: ["tar.gz", "appImage"],
+    target: ["tar.gz", "appImage", "deb"],
     artifactName: "${productName}-Linux-${version}.${ext}",
-    icon: "public/icon-512.png",
+    icon: "/usr/share/icons/hicolor/512x512/apps/outils-linguistiques.png",
     category: "Utility",
     maintainer: "ZaMeR12 <zamer12.dev@pm.me>",
+    executableName: "outils-linguistiques",
+    executableArgs: ["--disable-gpu"],
     desktop: {
-      Name: "Outils Linguistiques",
+      Name: "outils-linguistiques",
       Comment: "Application linguistique",
+      Terminal: false,
+      Type: "Application",
+      Icon: "/usr/share/icons/hicolor/512x512/apps/outils-linguistiques.png",
+      Categories: "Utility;"
     },
+    extraResources: [
+      {
+        from: "public/icon-512.png",
+        to: "usr/share/icons/hicolor/512x512/apps/outils-linguistiques.png"
+      }
+    ]
   },
   publish: {
     provider: "github",

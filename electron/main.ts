@@ -30,8 +30,14 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 let win: BrowserWindow | null;
 
 function createWindow() {
+  const cheminIcon =
+    process.platform === "linux"
+      ? path.join(process.env.VITE_PUBLIC, "icon-512.png")
+      : path.join(process.env.VITE_PUBLIC, "favicon.ico");
+
+  console.log("Icon path:", cheminIcon);
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
+    icon: cheminIcon,
     resizable: true,
     height: 850,
     width: 1050,
