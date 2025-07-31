@@ -37,6 +37,13 @@ npm run dev
     
     De plus, **Mac** nécessite certaines clés de licence d'Apple pour pouvoir produire l'installateur correctement.
 
+Pour compiler le .deb sur linux vous devez installer les dépendances suivantes:
+
+- `ruby`
+- `gem`
+- `fpm` (par gem de ruby)
+
+
 ```sh title="Terminal"
 npm run build
 ```

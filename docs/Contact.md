@@ -40,6 +40,9 @@ Je suis également à l'aise avec différentes bases de données de différents 
 
 Je serais ravi de discuter avec vous ! Que ce soit pour parler de mes projets, partager des idées ou échanger des connaissances entre développeurs, n'hésitez pas à me contacter. Je suis toujours ouvert à de nouvelles opportunités d'apprentissage et de collaboration.
 
+## Comment me contacter ?
+Par courriel  :material-email-fast-outline: : [zamer12.dev@pm.me](mailto:zamer12.dev@pm.me){: target="_blank"}.
+
 ## Autres projets
 
 ### [Docker Dbs](https://github.com/ZaMeR12/docker_dbs){: target="_blank"}
