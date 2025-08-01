@@ -61,6 +61,7 @@ plugins:
   - glightbox
   - search
   - autolinks
+  - social
 
 copyright: Copyright ©️ Documentation par ZaMeR12, 2025
 
