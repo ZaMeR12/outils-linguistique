@@ -1,3 +1,8 @@
+---
+title: Installation Rapide
+description: Guide d'installation rapide des outils linguistiques.
+---
+
 # Rapide
 
 ## Installation d'Ollama

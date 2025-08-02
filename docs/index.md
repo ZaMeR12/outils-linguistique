@@ -1,5 +1,6 @@
 ---
 title: Accueil
+description: Documentation pour l'application d'outils linguistique.
 hide:
   - navigation
   - title

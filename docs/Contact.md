@@ -1,4 +1,6 @@
 ---
+title: Contact
+description: Informations de contact.
 hide:
   - navigation
 ---

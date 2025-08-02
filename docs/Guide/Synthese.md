@@ -1,3 +1,8 @@
+---
+title: Synthétiseur
+description: Guide d'utilisation du synthétiseur de texte pour les outils linguistiques.
+---
+
 # Synthétiseur
 
 Le synthétiseur de texte est un outil qui permet de résumer un texte en tenant compte des différences linguistiques et culturelles entre les variantes d'une même langue. Il utilise l'intelligence artificielle pour générer des résumés adaptés à la région ou au pays de destination.

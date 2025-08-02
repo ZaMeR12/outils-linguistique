@@ -1,3 +1,8 @@
+---
+title: Traducteur
+description: Guide d'utilisation du traducteur de texte pour les outils linguistiques.
+---
+
 # Traducteur
 
 Le traducteur est un outil qui permet de traduire un texte dans une autre langue en tenant compte des différences linguistiques et culturelles entre les variantes d'une même langue. Il utilise l'intelligence artificielle pour générer des traductions adaptées à la région ou au pays de destination.

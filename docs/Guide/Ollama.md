@@ -1,3 +1,8 @@
+---
+title: Ollama
+description: Guide d'utilisation de l'application Ollama pour les outils linguistiques.
+---
+
 # Ollama :simple-ollama:
 
 L'application utilise Ollama pour fournir des outils linguistiques. Ollama est un logiciel qui permet d'exécuter des modèles de langage localement, ce qui offre une plus grande flexibilité et confidentialité par rapport aux services en ligne.

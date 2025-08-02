@@ -1,4 +1,6 @@
 ---
+title: À propos
+description: Informations sur la documentation et ses dépendances.
 hide:
   - navigation
   - toc
