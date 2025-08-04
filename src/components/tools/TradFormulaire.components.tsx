@@ -4,7 +4,7 @@ import {
   correspondanceLangues,
   genererContexteTraduction,
   LangueTraducteurEng,
-} from "@/utils/ContexteSyteme";
+} from "@/utils/ContexteSysteme";
 import {
   Button,
   Card,

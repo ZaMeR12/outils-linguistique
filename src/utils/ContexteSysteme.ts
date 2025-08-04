@@ -169,6 +169,9 @@ export const genererContexteResume = (
 
 /**
  * Génère le contenu pour le contexte de reformulation.
+ * Cette fonction crée un message système pour Ollama qui définit le rôle de l'IA
+ * en tant qu'expert en reformulation de texte, en adaptant la reformulation au contexte régional
+ * et culturel de la langue cible.
  * @author ZaMeR_12
  * @param texteInitial Texte à reformuler.
  * @param langue Langue de destination.
@@ -182,16 +185,28 @@ const genererContenuReformulation = (
   limiteMots?: number,
   style?: StyleEcritureEng
 ): string => {
-  let contenu = `You are a text reformulation expert. Your task is to reformulate the following text to ${langue}: "${texteInitial}"`;
+  /**
+   * Génération du contexte système a été optimisé par Github Copilot.
+   * @author GitHub. (2025). GitHub Copilot (version août 2025) [Modèle de génération de code]. https://resources.github.com/copilot-for-business/
+   */
+  let contenu = `Reformulate the following text in ${langue} as if you were a person adopting the ${
+    style || "default"
+  } writing style. Only provide the reformulated text, nothing else: "${texteInitial}"`;
   if (limiteMots) {
-    contenu += ` Please limit your response to ${limiteMots} words.`;
-  }
-  if (style) {
-    contenu += ` Please use the ${style} writing style.`;
+    contenu += ` Ensure the reformulation strictly adheres to the word limit of ${limiteMots} words, with minimal deviation (e.g., within 5 words). Avoid generating significantly fewer words than the limit.`;
   }
   return contenu;
 };
 
+/**
+ * Génère le contenu pour le contexte de reformulation.
+ * @author ZaMeR_12
+ * @param texteInitial Texte à reformuler.
+ * @param langue Langue de destination.
+ * @param limiteMots Limite de mots (optionnel).
+ * @param style Style d'écriture (optionnel).
+ * @returns Contenu formaté pour le message système.
+ */
 export const genererContexteReformulation = (
   texteInitial: string,
   langue: LangueTraducteurEng,

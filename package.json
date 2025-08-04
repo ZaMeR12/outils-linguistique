@@ -10,7 +10,7 @@
     "build:linux": "npm run build && electron-builder --linux --config",
     "build:mac": "npm run build && electron-builder --mac --config",
     "build:win": "npm run build && electron-builder --win --config",
-    "build:wl":"npm run build && electron-builder -wl",
+    "build:wl": "npm run build && electron-builder -wl",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -54,5 +54,6 @@
   "author": {
     "name": "ZaMeR12",
     "email": "zamer12.dev@pm.me"
-  }
+  },
+  "homepage": "https://zamer12.github.io/outils-linguistique/"
 }

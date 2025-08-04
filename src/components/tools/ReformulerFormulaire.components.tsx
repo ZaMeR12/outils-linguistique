@@ -2,64 +2,79 @@ import { OllamaContext } from "@/contexts/Ollama.context";
 import { RoleMessageOllama } from "@/models/Ollama.models";
 import {
   correspondanceLangues,
-  genererContexteResume,
+  correspondanceStyles,
+  genererContexteReformulation,
   LangueTraducteurEng,
+  StyleEcritureEng,
 } from "@/utils/ContexteSysteme";
 import {
+  Alert,
+  AlertTitle,
   Button,
   Card,
   Grid,
   LinearProgress,
   MenuItem,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Message } from "ollama/browser";
 import { useContext, useEffect } from "react";
 import useLocalStorage from "use-local-storage";
 
-const SynthFormulaire = () => {
+const ReformulerFormulaire = () => {
   const {
     ollamaErreur,
     ollamaEstChargeOutil,
     genererReponseOllama,
     reponseOllama,
     arreterReponseOllama,
-    resumeModele,
+    reformulationModele,
     viderReponseOllama,
   } = useContext(OllamaContext);
 
-  const [langueResume, setLangueResume] = useLocalStorage<LangueTraducteurEng>(
-    "langueResume",
-    LangueTraducteurEng.FR_CA
-  );
+  const [langueReformuler, setLangueReformuler] =
+    useLocalStorage<LangueTraducteurEng>(
+      "langueReformuler",
+      LangueTraducteurEng.FR_CA
+    );
 
   const [texteInitial, setTexteInitial] = useLocalStorage<string>(
-    "texteInitialResume",
+    "texteInitialReformuler",
     ""
   );
 
-  const [resume, setResume] = useLocalStorage<string>("texteResume", "");
+  const [reformuler, setReformuler] = useLocalStorage<string>(
+    "texteReformuler",
+    ""
+  );
 
-  /**
-   * Gère le changement de la langue source sélectionnée.
-   * @author ZaMeR12
-   * @param event L'événement de changement provenant de l'élément select.
-   */
-  const onChangeLangueResume = (
+  const [styleEcriture, setStyleEcriture] = useLocalStorage<StyleEcritureEng>(
+    "styleEcritureReformuler",
+    StyleEcritureEng.AUCUNE
+  );
+
+  const [limiteMots, setLimiteMots] = useLocalStorage<number>(
+    "limiteMotsReformuler",
+    0
+  );
+
+  const onChangeLangueReformuler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setLangueResume(event.target.value as LangueTraducteurEng);
+    setLangueReformuler(event.target.value as LangueTraducteurEng);
   };
 
-  /**
-   * Gère le changement du texte initial à résumer.
-   * @author ZaMeR12
-   * @param event L'événement de changement provenant de l'élément input.
-   */
   const onChangeTexteInitial = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setTexteInitial(event.target.value);
+  };
+
+  const onChangeStyleEcriture = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setStyleEcriture(event.target.value as StyleEcritureEng);
   };
 
   /**
@@ -68,48 +83,65 @@ const SynthFormulaire = () => {
    */
   const onClickNettoyer = () => {
     setTexteInitial("");
-    setResume("");
+    setReformuler("");
     viderReponseOllama();
   };
 
-  /**
-   * Gère le clic sur le bouton "Synthétiser" pour générer un résumé du texte initial.
-   * @author ZaMeR12
-   */
-  const onClickResume = async () => {
+  const onClickReformuler = async () => {
     if (texteInitial.trim() !== "") {
-      const texteInitialMessage: Message = {
-        role: RoleMessageOllama.USER,
-        content: texteInitial,
-      };
+      if (limiteMots > 0 || styleEcriture !== StyleEcritureEng.AUCUNE) {
+        const texteInitialMessage: Message = {
+          role: RoleMessageOllama.USER,
+          content: texteInitial,
+        };
 
-      const contexteSysteme = genererContexteResume(texteInitial, langueResume);
+        const contexteSysteme = genererContexteReformulation(
+          texteInitial,
+          langueReformuler,
+          limiteMots === 0 ? undefined : limiteMots,
+          styleEcriture === StyleEcritureEng.AUCUNE ? undefined : styleEcriture
+        );
 
-      const messages: Message[] = [contexteSysteme, texteInitialMessage];
-      await genererReponseOllama(resumeModele, messages);
+        const messages: Message[] = [contexteSysteme, texteInitialMessage];
+
+        await genererReponseOllama(reformulationModele, messages);
+      }
     }
   };
 
   useEffect(() => {
-    if (reponseOllama && reponseOllama !== resume) {
-      setResume(reponseOllama);
+    if (reponseOllama && reponseOllama !== reformuler) {
+      setReformuler(reponseOllama);
     }
-  }, [reponseOllama, resume, setResume]);
+  }, [reponseOllama, reformuler, setReformuler]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>
       <Grid container spacing={2}>
+        {limiteMots == 0 && styleEcriture == StyleEcritureEng.AUCUNE ? (
+          <Grid size={12}>
+            <Alert severity="warning">
+              <AlertTitle>Avertissement</AlertTitle>
+              <Typography variant="body2" component="p">
+                Vous devez au moins définir une limite de mots ou un style
+                d'écriture pour la reformulation.
+              </Typography>
+            </Alert>
+          </Grid>
+        ) : (
+          <></>
+        )}
         <Grid size={12} container justifyContent={"flex-start"}>
-          <Grid size={3}>
+          <Grid size={4}>
             <TextField
               fullWidth
-              label="Langue du résumé"
+              label="Langue de la reformulation"
               variant="outlined"
               disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
               select
-              value={langueResume}
+              value={langueReformuler}
               sx={{ paddingBottom: 2 }}
-              onChange={onChangeLangueResume}
+              onChange={onChangeLangueReformuler}
             >
               {(Array.isArray(LangueTraducteurEng)
                 ? LangueTraducteurEng
@@ -121,11 +153,47 @@ const SynthFormulaire = () => {
               ))}
             </TextField>
           </Grid>
+          <Grid size={4}>
+            <TextField
+              fullWidth
+              label="Style d'écriture"
+              variant="outlined"
+              disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
+              select
+              value={styleEcriture}
+              sx={{ paddingBottom: 2 }}
+              onChange={onChangeStyleEcriture}
+            >
+              {(Array.isArray(StyleEcritureEng)
+                ? StyleEcritureEng
+                : Object.values(StyleEcritureEng)
+              ).map((style: string) => (
+                <MenuItem key={style} value={style}>
+                  {correspondanceStyles[style as StyleEcritureEng]}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid size={4}>
+            <TextField
+              variant="outlined"
+              label="Limite de mots"
+              fullWidth
+              type="number"
+              disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
+              slotProps={{
+                input: { inputProps: { min: 0, step: 1 } },
+              }}
+              helperText="0 pour aucune limite de mots"
+              value={limiteMots}
+              onChange={(e) => setLimiteMots(Number(e.target.value))}
+            />
+          </Grid>
         </Grid>
         <Grid size={6} sx={{ borderRight: "1px solid #000", paddingRight: 1 }}>
           <TextField
             fullWidth
-            label="Texte à résumer"
+            label="Texte à reformuler"
             variant="outlined"
             error={!!ollamaErreur}
             helperText={ollamaErreur}
@@ -135,7 +203,7 @@ const SynthFormulaire = () => {
             rows={15}
             value={texteInitial}
             onChange={onChangeTexteInitial}
-            placeholder="Entrez le texte à résumer ici..."
+            placeholder="Entrez le texte à reformuler ici..."
             slotProps={{
               input: {
                 inputProps: {
@@ -148,15 +216,15 @@ const SynthFormulaire = () => {
         <Grid size={6} sx={{ borderLeft: "1px solid #000", paddingLeft: 1 }}>
           <TextField
             fullWidth
-            label="Synthèse"
+            label="Reformulation"
             variant="outlined"
             error={!!ollamaErreur}
             helperText={ollamaErreur}
             disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
             multiline
             rows={15}
-            placeholder="La synthèse apparaîtra ici..."
-            value={resume}
+            placeholder="La reformulation apparaîtra ici..."
+            value={reformuler}
             slotProps={{
               input: {
                 inputProps: {
@@ -179,9 +247,9 @@ const SynthFormulaire = () => {
             variant="contained"
             color="primary"
             disabled={!ollamaEstChargeOutil || ollamaErreur !== ""}
-            onClick={onClickResume}
+            onClick={onClickReformuler}
           >
-            Synthétiser
+            Reformuler
           </Button>
         </Grid>
         <Grid size={4} sx={{ display: "flex", justifyContent: "center" }}>
@@ -208,4 +276,5 @@ const SynthFormulaire = () => {
     </Card>
   );
 };
-export default SynthFormulaire;
+
+export default ReformulerFormulaire;
