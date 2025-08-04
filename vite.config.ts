@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import path from "node:path";
 import electron from "vite-plugin-electron/simple";
 import react from "@vitejs/plugin-react";
+import renderer from "vite-plugin-electron-renderer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,6 +21,11 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    renderer({
+      resolve: {
+        sqlite3: { type: "cjs" },
+      },
+    }),
     electron({
       main: {
         // Shortcut of `build.lib.entry`.

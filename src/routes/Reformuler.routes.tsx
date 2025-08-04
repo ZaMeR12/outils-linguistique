@@ -1,10 +1,13 @@
 import ReformulerFormulaire from "@/components/tools/ReformulerFormulaire.components";
+import { OllamaContext } from "@/contexts/Ollama.context";
 import { IOutletContext } from "@/models/Outlet.models";
-import { Grid, Typography } from "@mui/material";
+import { Alert, AlertTitle, Grid, Typography } from "@mui/material";
+import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 
 const Reformuler = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
+  const { ollamaEstChargeOutil, ollamaErreur } = useContext(OllamaContext);
   return (
     <div
       style={{
@@ -21,6 +24,22 @@ const Reformuler = () => {
           padding: 3,
         }}
       >
+        <Grid size={12}>
+          {!ollamaEstChargeOutil && ollamaErreur === "" ? (
+            <Alert severity="info" sx={{ margin: 2 }}>
+              {" "}
+              <AlertTitle>Information</AlertTitle>
+              Ollama est en cours de chargement. Veuillez patienter...
+            </Alert>
+          ) : null}
+          {ollamaErreur !== "" ? (
+            <Alert severity="error" sx={{ margin: 2 }}>
+              {ollamaErreur}
+            </Alert>
+          ) : (
+            <></>
+          )}
+        </Grid>
         <Grid size={12} textAlign={"center"}>
           <Typography variant="h4" component="h4">
             Reformulation de texte

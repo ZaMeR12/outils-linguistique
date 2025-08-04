@@ -1,12 +1,12 @@
 import { Paper } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
-interface ICOnteneurPageProps {
+interface IConteneurPageProps {
   appBarTopHeight: number;
   navBarWidth: number;
 }
 
-const ConteneurPage = (props: ICOnteneurPageProps) => {
+const ConteneurPage = (props: IConteneurPageProps) => {
   return (
     <Paper
       elevation={5}

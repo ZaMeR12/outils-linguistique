@@ -1,9 +1,8 @@
-import { Alert, AlertTitle, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { AppBarTop } from "./utils/AppBarTop.components";
 import { NavBar } from "./utils/NavBar.components";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import _ from "lodash";
-import { OllamaContext } from "@/contexts/Ollama.context";
 import ConteneurPage from "./ConteneurPage.components";
 
 /**
@@ -13,8 +12,6 @@ import ConteneurPage from "./ConteneurPage.components";
  * @returns Un élément JSX représentant le conteneur principal.
  */
 export const ConteneurPrincipal = (): JSX.Element => {
-  const { ollamaErreur, ollamaEstChargeOutil } = useContext(OllamaContext);
-
   const appBarTopRef = useRef<HTMLDivElement>(null); // Référence pour la barre d'application supérieure
   // État pour stocker la hauteur de l'élément AppBarTop
   const [appBarTopHeight, setAppBarTopHeight] = useState<number | null>(null);
@@ -69,20 +66,6 @@ export const ConteneurPrincipal = (): JSX.Element => {
         />
       </Grid>
       <Grid size={10}>
-        {!ollamaEstChargeOutil && ollamaErreur === "" ? (
-          <Alert severity="info" sx={{ margin: 2 }}>
-            {" "}
-            <AlertTitle>Information</AlertTitle>
-            Ollama est en cours de chargement. Veuillez patienter...
-          </Alert>
-        ) : null}
-        {ollamaErreur !== "" ? (
-          <Alert severity="error" sx={{ margin: 2 }}>
-            {ollamaErreur}
-          </Alert>
-        ) : (
-          <></>
-        )}
         <ConteneurPage
           appBarTopHeight={_.isNull(appBarTopHeight) ? 0 : appBarTopHeight}
           navBarWidth={_.isNull(navBarWidth) ? 0 : navBarWidth}
