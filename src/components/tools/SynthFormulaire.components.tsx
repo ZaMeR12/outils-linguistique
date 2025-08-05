@@ -17,6 +17,12 @@ import { Message } from "ollama/browser";
 import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
+/**
+ * Composant pour le formulaire de synthèse.
+ * Permet à l'utilisateur de saisir un texte à synthétiser, de choisir la langue et de lancer la synthèse.
+ * @author ZaMeR12
+ * @returns Le formulaire de synthèse.
+ */
 const SynthFormulaire = () => {
   const {
     ollamaErreur,
@@ -74,6 +80,12 @@ const SynthFormulaire = () => {
     viderReponseOllama();
   };
 
+  /**
+   * Ajoute la synthèse dans l'historique via IPC.
+   * Cette fonction est appelée lorsque la réponse d'Ollama est reçue.
+   * @author ZaMeR12
+   * @param texteSynthetise Le texte synthétisé à ajouter dans l'historique
+   */
   const ajouterSyntheseDansHistorique = useCallback(
     (texteSynthetise: string) => {
       window.ipcRenderer.send("ajout-synth", {

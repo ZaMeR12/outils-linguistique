@@ -5,6 +5,12 @@ import SynthFormulaire from "@/components/tools/SynthFormulaire.components";
 import { useContext } from "react";
 import { OllamaContext } from "@/contexts/Ollama.context";
 
+/**
+ * Page de résumé de texte.
+ * Affiche les informations de base et permet à l'utilisateur de saisir un texte à synthétiser.
+ * @author ZaMeR12
+ * @returns Le contenu de la page de résumé.
+ */
 const Resume = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
   const { ollamaEstChargeOutil, ollamaErreur } = useContext(OllamaContext);

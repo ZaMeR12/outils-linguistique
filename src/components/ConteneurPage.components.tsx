@@ -6,6 +6,13 @@ interface IConteneurPageProps {
   navBarWidth: number;
 }
 
+/**
+ * Conteneur principal de l'application.
+ * Ce composant enveloppe les pages de l'application et gère la mise en page.
+ * @author ZaMeR12
+ * @param props Les propriétés du conteneur.
+ * @returns Le conteneur de la page.
+ */
 const ConteneurPage = (props: IConteneurPageProps) => {
   return (
     <Paper

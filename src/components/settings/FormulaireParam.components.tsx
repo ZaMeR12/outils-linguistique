@@ -11,6 +11,12 @@ import {
 import { useContext, useState } from "react";
 import isURL from "validator/lib/isURL";
 
+/**
+ * Composant pour le formulaire de configuration des paramètres de l'application.
+ * Permet de configurer l'URL du service Ollama et les modèles utilisés pour la traduction, le résumé et la reformulation.
+ * @author ZaMeR12
+ * @returns Le formulaire de configuration des paramètres de l'application.
+ */
 const FormulaireParam = () => {
   const {
     ollamaUrl,

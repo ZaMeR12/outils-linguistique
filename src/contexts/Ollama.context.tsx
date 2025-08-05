@@ -59,6 +59,13 @@ export const OllamaContext = React.createContext<OllamaContextType>({
   setReformulationModele: () => {},
 });
 
+/**
+ * Fournit le contexte Ollama pour l'application.
+ * Ce composant enveloppe l'application et fournit les fonctions et données nécessaires pour interagir avec Ollama.
+ * @author ZaMeR_12
+ * @param props Les propriétés du fournisseur de contexte.
+ * @returns Le fournisseur de contexte Ollama.
+ */
 export default function OllamaProvider(props: React.PropsWithChildren) {
   const [ollamaUrl, setOllamaUrl] = useLocalStorage<URL>(
     "ollamaUrl",

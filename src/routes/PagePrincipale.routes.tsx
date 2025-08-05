@@ -5,6 +5,12 @@ import { IOutletContext } from "@/models/Outlet.models";
 import { useContext } from "react";
 import { OllamaContext } from "@/contexts/Ollama.context";
 
+/**
+ * Page principale de l'application.
+ * Affiche les informations de base et permet à l'utilisateur de configurer les paramètres de l'application.
+ * @author ZaMeR12
+ * @returns Le contenu de la page principale.
+ */
 const PagePrincipale = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
   const { ollamaEstChargeOutil, ollamaErreur } = useContext(OllamaContext);

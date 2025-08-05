@@ -5,6 +5,12 @@ import { IOutletContext } from "@/models/Outlet.models";
 import { useContext } from "react";
 import { OllamaContext } from "@/contexts/Ollama.context";
 
+/**
+ * Page de traduction de texte.
+ * Affiche les informations de base et permet à l'utilisateur de saisir un texte à traduire.
+ * @author ZaMeR12
+ * @returns Le contenu de la page de traduction.
+ */
 const Traducteur = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
   const { ollamaEstChargeOutil, ollamaErreur } = useContext(OllamaContext);

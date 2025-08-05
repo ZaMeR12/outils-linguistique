@@ -17,6 +17,11 @@ import { Message } from "ollama/browser";
 import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
+/**
+ * Composant pour le formulaire de traduction.
+ * Permet à l'utilisateur de saisir un texte à traduire, de choisir les langues source
+ * @returns Composant pour le formulaire de traduction.
+ */
 const TradFormulaire = () => {
   const {
     ollamaErreur,
@@ -107,6 +112,8 @@ const TradFormulaire = () => {
 
   /**
    * Ajouter une traduction à l'historique de la bd par l'appel à l'API IPC.
+   * Cette fonction est appelée lorsque la réponse d'Ollama est reçue.
+   * @param texteTraduit Le texte traduit à ajouter dans l'historique
    * @author ZaMeR12
    */
   const ajouterTraductionDansHistorique = useCallback(

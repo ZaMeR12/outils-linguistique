@@ -5,6 +5,12 @@ import { Alert, AlertTitle, Grid, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 
+/**
+ * Page de reformulation de texte.
+ * Affiche les informations de base et permet à l'utilisateur de saisir un texte à reformuler.
+ * @author ZaMeR12
+ * @returns Le contenu de la page de reformulation.
+ */
 const Reformuler = () => {
   const { appBarTopHeight } = useOutletContext<IOutletContext>();
   const { ollamaEstChargeOutil, ollamaErreur } = useContext(OllamaContext);

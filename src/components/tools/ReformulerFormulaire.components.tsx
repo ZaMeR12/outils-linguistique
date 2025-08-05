@@ -22,6 +22,12 @@ import { Message } from "ollama/browser";
 import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
+/**
+ * Composant pour le formulaire de reformulation.
+ * Permet à l'utilisateur de saisir un texte à reformuler, de choisir la langue, le style d'écriture et la limite de mots.
+ * @author ZaMeR12
+ * @returns Le formulaire de reformulation.
+ */
 const ReformulerFormulaire = () => {
   const {
     ollamaErreur,
@@ -89,6 +95,12 @@ const ReformulerFormulaire = () => {
     viderReponseOllama();
   };
 
+  /**
+   * Ajoute la reformulation dans l'historique via IPC.
+   * Cette fonction est appelée lorsque la réponse d'Ollama est reçue.
+   * @author ZaMeR12
+   * @param texteReformule Le texte reformulé à ajouter dans l'historique
+   */
   const ajouterReformulationDansHistorique = useCallback(
     (texteReformule: string) => {
       window.ipcRenderer.send("ajout-reform", {
@@ -127,6 +139,10 @@ const ReformulerFormulaire = () => {
     ajouterReformulationDansHistorique,
   ]);
 
+  /**
+   * Gère le clic sur le bouton "Reformuler" pour envoyer la requête à Ollama.
+   * @author ZaMeR12
+   */
   const onClickReformuler = async () => {
     if (texteInitial.trim() !== "") {
       if (limiteMots > 0 || styleEcriture !== StyleEcritureEng.AUCUNE) {

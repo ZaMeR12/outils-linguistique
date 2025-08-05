@@ -101,7 +101,12 @@ app.on("activate", () => {
 
 app.whenReady().then(createWindow);
 
-// Gestion des insertions dans la base de données
+/**
+ * IPC pour gérer les interactions avec la base de données.
+ * Ces fonctions sont appelées depuis le processus Renderer.
+ */
+
+// Ajouter des traductions
 ipcMain.on(
   "ajout-trad",
   (
@@ -132,6 +137,7 @@ ipcMain.on(
   }
 );
 
+// Ajouter des synthèses
 ipcMain.on(
   "ajout-synth",
   (
@@ -161,6 +167,7 @@ ipcMain.on(
   }
 );
 
+// Ajouter des reformulations
 ipcMain.on(
   "ajout-reform",
   (
@@ -193,6 +200,7 @@ ipcMain.on(
   }
 );
 
+// Supprimer des traductions
 ipcMain.on(
   "sup-trad",
   (
@@ -212,6 +220,7 @@ ipcMain.on(
   }
 );
 
+// Supprimer des synthèses
 ipcMain.on(
   "sup-synth",
   (
@@ -231,6 +240,7 @@ ipcMain.on(
   }
 );
 
+// Supprimer des reformulations
 ipcMain.on(
   "sup-reform",
   (
@@ -253,6 +263,7 @@ ipcMain.on(
   }
 );
 
+// Récupérer des traductions avec pagination
 ipcMain.handle(
   "get-trads",
   async (_event, data: { page: number; taille: number }) => {
@@ -265,6 +276,7 @@ ipcMain.handle(
   }
 );
 
+// Récupérer des synthèses avec pagination
 ipcMain.handle(
   "get-synths",
   async (_event, data: { page: number; taille: number }) => {
@@ -277,6 +289,7 @@ ipcMain.handle(
   }
 );
 
+// Récupérer des reformulations avec pagination
 ipcMain.handle(
   "get-reforms",
   async (_event, data: { page: number; taille: number }) => {
