@@ -45,7 +45,7 @@ const TabTrad = () => {
     setCompteurLigne((prevCount) => prevCount - 1);
   };
 
-  const columns: GridColDef[] = [
+  const colonnes: GridColDef[] = [
     { field: "texte_original", headerName: "Texte Original", flex: 1 },
     { field: "texte_traduit", headerName: "Texte Traduit", flex: 1 },
     {
@@ -127,7 +127,7 @@ const TabTrad = () => {
     <div style={{ maxHeight: 600, width: "100%" }}>
       <DataGrid
         rows={lignes}
-        columns={columns}
+        columns={colonnes}
         pagination
         paginationModel={paginationModele}
         onPaginationModelChange={setPaginationModele}
