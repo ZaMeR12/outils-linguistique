@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Message } from "ollama/browser";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 const TradFormulaire = () => {
@@ -27,6 +27,8 @@ const TradFormulaire = () => {
     traductionModele,
     viderReponseOllama,
   } = useContext(OllamaContext);
+
+  const [insertionEffectuee, setInsertionEffectuee] = useState<boolean>(true);
 
   const [langueOrigine, setLangueOrigine] =
     useLocalStorage<LangueTraducteurEng>(
@@ -104,6 +106,40 @@ const TradFormulaire = () => {
   };
 
   /**
+   * Ajouter une traduction à l'historique de la bd par l'appel à l'API IPC.
+   * @author ZaMeR12
+   */
+  const ajouterTraductionDansHistorique = useCallback(
+    (texteTraduit: string) => {
+      window.ipcRenderer.send("ajout-trad", {
+        texteOriginal: texteATraduire,
+        texteTraduit: texteTraduit,
+        langueOrigine: langueOrigine,
+        langueCible: langueTrad,
+        dateTraduction: new Date().toISOString(),
+        modele: traductionModele.nom,
+      });
+    },
+    [texteATraduire, langueOrigine, langueTrad, traductionModele.nom]
+  );
+
+  useEffect(() => {
+    if (reponseOllama && reponseOllama !== traduction) {
+      setTraduction(reponseOllama);
+    }
+    if (!insertionEffectuee) {
+      ajouterTraductionDansHistorique(reponseOllama);
+      setInsertionEffectuee(true);
+    }
+  }, [
+    ajouterTraductionDansHistorique,
+    insertionEffectuee,
+    reponseOllama,
+    setTraduction,
+    traduction,
+  ]);
+
+  /**
    * Gère le clic sur le bouton "Traduire" pour lancer la traduction du texte.
    * Cette fonction crée un message de l'utilisateur avec le texte à traduire,
    * génère un contexte système pour la traduction, et appelle la fonction
@@ -113,6 +149,7 @@ const TradFormulaire = () => {
    */
   const onClickTraduire = async () => {
     if (texteATraduire.trim() !== "") {
+      setInsertionEffectuee(true);
       const texteTradMessage: Message = {
         role: RoleMessageOllama.USER,
         content: texteATraduire,
@@ -126,15 +163,9 @@ const TradFormulaire = () => {
 
       const messages: Message[] = [contexteSysteme, texteTradMessage];
       await genererReponseOllama(traductionModele, messages);
+      setInsertionEffectuee(false);
     }
   };
-
-  useEffect(() => {
-    console.log("Réponse d'Ollama trad:", reponseOllama);
-    if (reponseOllama && reponseOllama !== traduction) {
-      setTraduction(reponseOllama);
-    }
-  }, [reponseOllama, setTraduction, traduction]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>

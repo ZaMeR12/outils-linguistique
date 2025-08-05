@@ -1,11 +1,20 @@
-import { ipcRenderer, contextBridge } from "electron";
+// L'importation est fait en commonjs pour que le script soit lisible par electron.
+const { ipcRenderer, contextBridge } = require("electron");
 
+console.log("Preload script chargé.");
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", {
   on(...args: Parameters<typeof ipcRenderer.on>) {
     const [channel, listener] = args;
-    return ipcRenderer.on(channel, (event, ...args) =>
-      listener(event, ...args)
+    return ipcRenderer.on(
+      channel,
+      (event: Electron.IpcRendererEvent, ...args: unknown[]) =>
+        (
+          listener as (
+            event: Electron.IpcRendererEvent,
+            ...args: unknown[]
+          ) => void
+        )(event, ...args)
     );
   },
   off(...args: Parameters<typeof ipcRenderer.off>) {

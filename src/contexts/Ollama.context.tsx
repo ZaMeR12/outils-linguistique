@@ -164,42 +164,47 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
   const genererReponseOllama = async (
     modele: IModeleOllama,
     messages: Message[]
-  ) => {
+  ): Promise<void> => {
     setReponseOllama("");
     ollamaEstChargeNav.current = false;
     setOllamaEstChargeOutil(false);
-    ollama.current
-      .chat({
-        model: modele.nom,
-        messages: messages,
-        stream: true,
-        options: {
-          temperature: modele.temperature,
-        },
-      })
-      .then(async (stream) => {
-        console.log("Ollama stream a commencé.");
-        for await (const chunk of stream) {
-          setReponseOllama((prev) => prev + chunk.message.content);
-        }
-        setOllamaErreur("");
-        ollamaEstChargeNav.current = true;
-        setOllamaEstChargeOutil(true);
-        console.log("Ollama stream terminé.");
-      })
-      .catch((error) => {
-        if (error.name == "AbortError") {
-          console.log("Ollama stream a été interrompu.");
+    return new Promise((resolve, reject) => {
+      ollama.current
+        .chat({
+          model: modele.nom,
+          messages: messages,
+          stream: true,
+          options: {
+            temperature: modele.temperature,
+          },
+        })
+        .then(async (stream) => {
+          console.log("Ollama stream a commencé.");
+          for await (const chunk of stream) {
+            setReponseOllama((prev) => prev + chunk.message.content);
+          }
           setOllamaErreur("");
           ollamaEstChargeNav.current = true;
           setOllamaEstChargeOutil(true);
-        } else {
-          console.log(error);
-          setOllamaErreur(
-            `Ollama ne peut pas répondre. Vérifiez si Ollama à l'adresse ${ollamaUrl.toString()} fonctionne toujours.`
-          );
-        }
-      });
+          console.log("Ollama stream terminé.");
+          resolve();
+        })
+        .catch((error) => {
+          if (error.name == "AbortError") {
+            console.log("Ollama stream a été interrompu.");
+            setOllamaErreur("");
+            ollamaEstChargeNav.current = true;
+            setOllamaEstChargeOutil(true);
+            resolve();
+          } else {
+            console.log(error);
+            setOllamaErreur(
+              `Ollama ne peut pas répondre. Vérifiez si Ollama à l'adresse ${ollamaUrl.toString()} fonctionne toujours.`
+            );
+            reject(error);
+          }
+        });
+    });
   };
 
   /**

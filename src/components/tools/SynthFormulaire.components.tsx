@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Message } from "ollama/browser";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 const SynthFormulaire = () => {
@@ -39,6 +39,8 @@ const SynthFormulaire = () => {
   );
 
   const [resume, setResume] = useLocalStorage<string>("texteResume", "");
+
+  const [insertionEffectuee, setInsertionEffectuee] = useState<boolean>(true);
 
   /**
    * Gère le changement de la langue source sélectionnée.
@@ -72,12 +74,44 @@ const SynthFormulaire = () => {
     viderReponseOllama();
   };
 
+  const ajouterSyntheseDansHistorique = useCallback(
+    (texteSynthetise: string) => {
+      window.ipcRenderer.send("ajout-synth", {
+        texteOriginal: texteInitial,
+        texteSynthetise: texteSynthetise,
+        langueOrigine: langueResume,
+        dateSynthese: new Date().toISOString(),
+        modele: resumeModele.nom,
+      });
+    },
+    [texteInitial, langueResume, resumeModele.nom]
+  );
+
+  useEffect(() => {
+    if (reponseOllama && reponseOllama !== resume) {
+      setResume(reponseOllama);
+    }
+
+    if (!insertionEffectuee) {
+      ajouterSyntheseDansHistorique(reponseOllama);
+      setInsertionEffectuee(true);
+    }
+  }, [
+    reponseOllama,
+    resume,
+    ajouterSyntheseDansHistorique,
+    setResume,
+    insertionEffectuee,
+    setInsertionEffectuee,
+  ]);
+
   /**
    * Gère le clic sur le bouton "Synthétiser" pour générer un résumé du texte initial.
    * @author ZaMeR12
    */
   const onClickResume = async () => {
     if (texteInitial.trim() !== "") {
+      setInsertionEffectuee(true); // Réinitialise l'état avant de commencer un nouveau stream
       const texteInitialMessage: Message = {
         role: RoleMessageOllama.USER,
         content: texteInitial,
@@ -87,14 +121,9 @@ const SynthFormulaire = () => {
 
       const messages: Message[] = [contexteSysteme, texteInitialMessage];
       await genererReponseOllama(resumeModele, messages);
+      setInsertionEffectuee(false); // Réinitialise l'état après la génération
     }
   };
-
-  useEffect(() => {
-    if (reponseOllama && reponseOllama !== resume) {
-      setResume(reponseOllama);
-    }
-  }, [reponseOllama, resume, setResume]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>

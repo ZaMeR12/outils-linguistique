@@ -19,7 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Message } from "ollama/browser";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import useLocalStorage from "use-local-storage";
 
 const ReformulerFormulaire = () => {
@@ -32,6 +32,8 @@ const ReformulerFormulaire = () => {
     reformulationModele,
     viderReponseOllama,
   } = useContext(OllamaContext);
+
+  const [insertionEffectuee, setInsertionEffectuee] = useState<boolean>(true);
 
   const [langueReformuler, setLangueReformuler] =
     useLocalStorage<LangueTraducteurEng>(
@@ -87,9 +89,48 @@ const ReformulerFormulaire = () => {
     viderReponseOllama();
   };
 
+  const ajouterReformulationDansHistorique = useCallback(
+    (texteReformule: string) => {
+      window.ipcRenderer.send("ajout-reform", {
+        texteOriginal: texteInitial,
+        texteReformule: texteReformule,
+        langueOrigine: langueReformuler,
+        style: styleEcriture,
+        limiteMots: limiteMots,
+        dateReformulation: new Date().toISOString(),
+        modele: reformulationModele.nom,
+      });
+    },
+    [
+      texteInitial,
+      langueReformuler,
+      styleEcriture,
+      limiteMots,
+      reformulationModele.nom,
+    ]
+  );
+
+  useEffect(() => {
+    if (reponseOllama && reponseOllama !== reformuler) {
+      setReformuler(reponseOllama);
+    }
+
+    if (!insertionEffectuee) {
+      ajouterReformulationDansHistorique(reponseOllama);
+      setInsertionEffectuee(true);
+    }
+  }, [
+    reponseOllama,
+    reformuler,
+    setReformuler,
+    insertionEffectuee,
+    ajouterReformulationDansHistorique,
+  ]);
+
   const onClickReformuler = async () => {
     if (texteInitial.trim() !== "") {
       if (limiteMots > 0 || styleEcriture !== StyleEcritureEng.AUCUNE) {
+        setInsertionEffectuee(true);
         const texteInitialMessage: Message = {
           role: RoleMessageOllama.USER,
           content: texteInitial,
@@ -105,15 +146,10 @@ const ReformulerFormulaire = () => {
         const messages: Message[] = [contexteSysteme, texteInitialMessage];
 
         await genererReponseOllama(reformulationModele, messages);
+        setInsertionEffectuee(false);
       }
     }
   };
-
-  useEffect(() => {
-    if (reponseOllama && reponseOllama !== reformuler) {
-      setReformuler(reponseOllama);
-    }
-  }, [reponseOllama, reformuler, setReformuler]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>
