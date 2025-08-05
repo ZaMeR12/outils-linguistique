@@ -15,6 +15,12 @@ import {
   obtenirTradPagination,
   obtenirSynthPagination,
   obtenirReformPagination,
+  obtenirNombreTotalTraductions,
+  obtenirNombreTotalSyntheses,
+  obtenirNombreTotalReformulations,
+  obtenirTraductionParId,
+  obtenirReformulationParId,
+  obtenirSyntheseParId,
 } from "./db";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -304,3 +310,80 @@ ipcMain.handle(
     }
   }
 );
+
+// Récupérer le nombre total de traductions
+ipcMain.handle("get-nombre-trads", async () => {
+  try {
+    return obtenirNombreTotalTraductions();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de traductions :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+
+// Récupérer le nombre total de synthèses
+ipcMain.handle("get-nombre-synths", async () => {
+  try {
+    return await obtenirNombreTotalSyntheses();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de synthèses :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+
+// Récupérer le nombre total de reformulations
+ipcMain.handle("get-nombre-reforms", async () => {
+  try {
+    return await obtenirNombreTotalReformulations();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de reformulations :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+
+// Récupérer une traduction par son ID
+ipcMain.handle("get-trad-par-id", async (_event, id: number) => {
+  try {
+    return obtenirTraductionParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la traduction par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+
+// Récupérer une synthèse par son ID
+ipcMain.handle("get-synth-par-id", async (_event, id: number) => {
+  try {
+    return obtenirSyntheseParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la synthèse par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+// Récupérer une reformulation par son ID
+ipcMain.handle("get-reform-par-id", async (_event, id: number) => {
+  try {
+    return obtenirReformulationParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la reformulation par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});

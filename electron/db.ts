@@ -202,6 +202,72 @@ export const obtenirReformPagination = async (page: number, taille: number) => {
   return stmt.all(taille, page * taille);
 };
 
+/**
+ * Obtenir le nombre total de traductions dans la base de données.
+ * @author ZaMeR12
+ * @returns Le nombre total de traductions.
+ */
+export const obtenirNombreTotalTraductions = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM traduction`);
+  const row = stmt.get() as { total: number };
+  return row.total;
+};
+
+/**
+ * Obtenir le nombre total de synthèses dans la base de données.
+ * @author ZaMeR12
+ * @returns Le nombre total de synthèses.
+ */
+export const obtenirNombreTotalSyntheses = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM synthese`);
+  const row = stmt.get() as { total: number };
+  return row.total;
+};
+
+/**
+ * Obtenir le nombre total de reformulations dans la base de données.
+ * @author ZaMeR12
+ * @returns Le nombre total de reformulations.
+ */
+export const obtenirNombreTotalReformulations = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM reformulation`);
+  const row = stmt.get() as { total: number };
+  return row.total;
+};
+
+/**
+ * Récupère une traduction par son ID.
+ * @author ZaMeR12
+ * @param id  L'ID de la traduction à récupérer.
+ * @returns  La traduction correspondante à l'ID.
+ */
+export const obtenirTraductionParId = (id: number) => {
+  const stmt = db.prepare(`SELECT * FROM traduction WHERE id = ?`);
+  return stmt.get(id);
+};
+
+/**
+ * Récupère une synthèse par son ID.
+ * @author ZaMeR12
+ * @param id  L'ID de la synthèse à récupérer.
+ * @returns  La synthèse correspondante à l'ID.
+ */
+export const obtenirSyntheseParId = (id: number) => {
+  const stmt = db.prepare(`SELECT * FROM synthese WHERE id = ?`);
+  return stmt.get(id);
+};
+
+/**
+ * Récupère une reformulation par son ID.
+ * @author ZaMeR12
+ * @param id  L'ID de la reformulation à récupérer.
+ * @returns  La reformulation correspondante à l'ID.
+ */
+export const obtenirReformulationParId = (id: number) => {
+  const stmt = db.prepare(`SELECT * FROM reformulation WHERE id = ?`);
+  return stmt.get(id);
+};
+
 /** Ferme la connexion à la base de données.
  * @author ZaMeR12
  */

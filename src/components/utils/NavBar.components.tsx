@@ -1,5 +1,5 @@
 import { OllamaContext } from "@/contexts/Ollama.context";
-import { List, ListItemButton, ListItemText } from "@mui/material";
+import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import { forwardRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -45,14 +45,24 @@ export const NavBar = forwardRef<HTMLUListElement, INavBarProps>(
           borderRight: "1px solid #000",
         }}
       >
+        <Divider textAlign="center"> Informations</Divider>
         <ListItemButton
           component="a"
           selected={location.pathname === "/"}
           onClick={() => handleNavigation("/")}
+          disabled={!ollamaEstChargeNav && ollamaErreur === ""}
         >
           <ListItemText primary="Page principale" />
         </ListItemButton>
-
+        <ListItemButton
+          component="a"
+          selected={location.pathname.includes("historique")}
+          onClick={() => handleNavigation("/historique")}
+          disabled={!ollamaEstChargeNav && ollamaErreur === ""}
+        >
+          <ListItemText primary="Historique" />
+        </ListItemButton>
+        <Divider textAlign="center"> Outils</Divider>
         <ListItemButton
           component="a"
           selected={location.pathname === "/traducteur"}

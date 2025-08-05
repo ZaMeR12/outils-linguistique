@@ -102,6 +102,33 @@ const obtenirReformPagination = async (page, taille) => {
   );
   return stmt.all(taille, page * taille);
 };
+const obtenirNombreTotalTraductions = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM traduction`);
+  const row = stmt.get();
+  return row.total;
+};
+const obtenirNombreTotalSyntheses = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM synthese`);
+  const row = stmt.get();
+  return row.total;
+};
+const obtenirNombreTotalReformulations = () => {
+  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM reformulation`);
+  const row = stmt.get();
+  return row.total;
+};
+const obtenirTraductionParId = (id) => {
+  const stmt = db.prepare(`SELECT * FROM traduction WHERE id = ?`);
+  return stmt.get(id);
+};
+const obtenirSyntheseParId = (id) => {
+  const stmt = db.prepare(`SELECT * FROM synthese WHERE id = ?`);
+  return stmt.get(id);
+};
+const obtenirReformulationParId = (id) => {
+  const stmt = db.prepare(`SELECT * FROM reformulation WHERE id = ?`);
+  return stmt.get(id);
+};
 const fermerBaseDeDonnees = () => {
   db.close();
 };
@@ -288,6 +315,72 @@ ipcMain.handle(
     }
   }
 );
+ipcMain.handle("get-nombre-trads", async () => {
+  try {
+    return obtenirNombreTotalTraductions();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de traductions :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+ipcMain.handle("get-nombre-synths", async () => {
+  try {
+    return await obtenirNombreTotalSyntheses();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de synthèses :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+ipcMain.handle("get-nombre-reforms", async () => {
+  try {
+    return await obtenirNombreTotalReformulations();
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération du nombre total de reformulations :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+ipcMain.handle("get-trad-par-id", async (_event, id) => {
+  try {
+    return obtenirTraductionParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la traduction par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+ipcMain.handle("get-synth-par-id", async (_event, id) => {
+  try {
+    return obtenirSyntheseParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la synthèse par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});
+ipcMain.handle("get-reform-par-id", async (_event, id) => {
+  try {
+    return obtenirReformulationParId(id);
+  } catch (erreur) {
+    console.error(
+      "Erreur lors de la récupération de la reformulation par ID :",
+      erreur
+    );
+    throw erreur;
+  }
+});
 export {
   MAIN_DIST,
   RENDERER_DIST,
