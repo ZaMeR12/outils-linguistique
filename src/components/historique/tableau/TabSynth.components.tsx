@@ -45,11 +45,11 @@ const TabSynth = () => {
   };
 
   const colonnes: GridColDef[] = [
-    { field: "texte_original", headerName: "Texte Original", flex: 1 },
-    { field: "texte_synthetise", headerName: "Texte Synthetisé", flex: 1 },
+    { field: "texte_original", headerName: "Texte original", flex: 1 },
+    { field: "texte_synthetise", headerName: "Synthèse", flex: 1 },
     {
       field: "langue_origine",
-      headerName: "Langue synthèse",
+      headerName: "Langue de la synthèse",
       flex: 1,
       renderCell: (params) => {
         const langue = params.value as string;
@@ -101,7 +101,7 @@ const TabSynth = () => {
       });
       const total = await window.ipcRenderer.invoke("get-nombre-synths");
 
-      // Convertir date_traduction en type Date
+      // Convertir date_synthese en type Date
       const donneesConverties = donnees.map((ligne: SynthLigne) => ({
         ...ligne,
         date_synthese: new Date(ligne.date_synthese),

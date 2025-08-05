@@ -9,95 +9,108 @@ import {
 import { useEffect, useState } from "react";
 import {
   correspondanceLangues,
+  correspondanceStyles,
   LangueTraducteurEng,
+  StyleEcritureEng,
 } from "../../../utils/ContexteSysteme";
 import { useNavigate } from "react-router-dom";
 
-interface TradCarteProps {
+interface ReformCarteProps {
   id: number;
 }
 
-interface TraductionBd {
+interface ReformulationBd {
   id: number;
   texte_original: string;
-  texte_traduit: string;
+  texte_reformule: string;
   langue_origine: string;
-  langue_cible: string;
-  date_traduction: string;
+  style: string;
+  limite_mots: number;
+  date_reformulation: string;
   modele: string;
 }
 
 /**
- * Composant pour afficher les détails d'une traduction.
- * @param param0 - Les propriétés du composant, incluant l'ID de la traduction.
+ * Composant pour afficher les détails d'une reformulation.
+ * @param param0 - Les propriétés du composant, incluant l'ID de la reformulation.
  * @returns {JSX.Element}
  */
-const TradCarte = ({ id }: TradCarteProps) => {
-  const [traduction, setTraduction] = useState<TraductionBd | null>(null);
+const ReformCarte = ({ id }: ReformCarteProps) => {
+  const [reformulation, setReformulation] = useState<ReformulationBd | null>(
+    null
+  );
   const navigate = useNavigate();
   useEffect(() => {
-    const chercherTraduction = async () => {
+    const chercherReformulation = async () => {
       try {
-        const response = await window.ipcRenderer.invoke("get-trad-par-id", id);
-        setTraduction(response as TraductionBd);
+        const response = await window.ipcRenderer.invoke(
+          "get-reform-par-id",
+          id
+        );
+        setReformulation(response as ReformulationBd);
       } catch (error) {
         console.error(
-          "Erreur lors de la récupération de la traduction:",
+          "Erreur lors de la récupération de la reformulation:",
           error
         );
       }
     };
 
     if (id) {
-      chercherTraduction();
+      chercherReformulation();
     }
   }, [id]);
 
   return (
     <Card elevation={5} sx={{ padding: 2 }}>
-      <CardHeader title={`Détails de la traduction (ID: ${id})`} />
+      <CardHeader title={`Détails de la reformulation (ID: ${id})`} />
       <CardContent>
-        {traduction ? (
+        {reformulation ? (
           <Grid container spacing={2}>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Texte original:</strong> {traduction.texte_original}
+                <strong>Texte original:</strong> {reformulation.texte_original}
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Texte traduit:</strong> {traduction.texte_traduit}
+                <strong>Texte reformulé:</strong>{" "}
+                {reformulation.texte_reformule}
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Langue d'origine:</strong>{" "}
+                <strong>Langue de la reformulation:</strong>{" "}
                 {
                   correspondanceLangues[
-                    traduction.langue_origine as LangueTraducteurEng
+                    reformulation.langue_origine as LangueTraducteurEng
                   ]
                 }
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Langue cible:</strong>{" "}
-                {
-                  correspondanceLangues[
-                    traduction.langue_cible as LangueTraducteurEng
-                  ]
-                }
+                <strong>Style d'écriture:</strong>{" "}
+                {correspondanceStyles[reformulation.style as StyleEcritureEng]}
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Date de Traduction:</strong>{" "}
-                {new Date(traduction.date_traduction).toLocaleString()}
+                <strong>Limite de mots:</strong>{" "}
+                {reformulation.limite_mots > 0
+                  ? String(reformulation.limite_mots)
+                  : "Aucune limite"}
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Modèle Utilisé:</strong> {traduction.modele}
+                <strong>Date de reformulation:</strong>{" "}
+                {new Date(reformulation.date_reformulation).toLocaleString()}
+              </Typography>
+            </Grid>
+            <Grid size={12}>
+              <Typography variant="body1" component="p">
+                <strong>Modèle Utilisé:</strong> {reformulation.modele}
               </Typography>
             </Grid>
             <Grid
@@ -108,7 +121,7 @@ const TradCarte = ({ id }: TradCarteProps) => {
                 variant="contained"
                 color="error"
                 onClick={async () => {
-                  await window.ipcRenderer.send("sup-trad", { id });
+                  await window.ipcRenderer.send("sup-reform", { id });
                   navigate("/historique");
                 }}
               >
@@ -126,4 +139,4 @@ const TradCarte = ({ id }: TradCarteProps) => {
   );
 };
 
-export default TradCarte;
+export default ReformCarte;

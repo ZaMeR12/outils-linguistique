@@ -65,12 +65,12 @@ const SynthCarte = ({ id }: SynthCarteProps) => {
           <Grid container spacing={2}>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Texte Original:</strong> {synthese.texte_original}
+                <strong>Texte original:</strong> {synthese.texte_original}
               </Typography>
             </Grid>
             <Grid size={12}>
               <Typography variant="body1" component="p">
-                <strong>Texte Synthétisé:</strong> {synthese.texte_synthetise}
+                <strong>Texte synthétisé:</strong> {synthese.texte_synthetise}
               </Typography>
             </Grid>
             <Grid size={12}>
@@ -103,7 +103,7 @@ const SynthCarte = ({ id }: SynthCarteProps) => {
                 variant="contained"
                 color="error"
                 onClick={async () => {
-                  await window.ipcRenderer.send("sup-trad", { id });
+                  await window.ipcRenderer.send("sup-synth", { id });
                   navigate("/historique");
                 }}
               >

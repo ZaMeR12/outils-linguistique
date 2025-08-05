@@ -3,11 +3,14 @@
 
 ## Interface 
 
+- [x] L'interface est en français au plus complet possible.
+
 ### Navigation
 
 - [x] Affichage graphique dynamique qui indique la bonne page lors d'une redirection interne
 - [x] Lors du lancement et des recharge de l'application, seulement l'option de la page principale devrait être disponible par défaut et c'est seulement lorsque la connexion avec Ollama a réussi.
-- [ ] Les redirections mènent tous vers des pages existantes 
+- [x] Les redirections mènent tous vers des pages existantes 
+- [x] Si par malheur l'utilisateur est redirigé vers une page non existante, cela affiche la page d'erreur 404.
 - [x] La navigation ne devrait pas être possible sauf sur la page principale s'il y a une erreur de connexion avec Ollama.
 - [x] Au changement de page, le cache de la réponse d'Ollama dans l'application est effacé.
 - [x] Si la barre de navigation dépasse la hauteur de la fenêtre, elle devient une zone à défilement séparée pour éviter un défilement général (sur le corps de la page)
@@ -129,6 +132,31 @@
 	- [x] Après fermeture de l'application
 	- [x] Lors de changement de page
 - [x] La réponse d'Ollama s'actualise en temps réelle.
+
+### Historique
+
+- [x] Le champs de la sélection de l'outils permets de changer la liste d'historiques correspondant au dit outil.
+- [x] Les tableaux des historiques sont traduits en français par la traduction fourni par MUI
+	- [x] Traduction
+	- [x] Synthèse
+	- [x] Reformulation
+- [x] Faire un double clique sur une ligne du tableau de loutil en question redirige vers la page détaillée de l'interaction en question
+	- [x] Traduction
+	- [x] Synthèse
+	- [x] Reformulation
+- [x] Cliquer sur le bouton de suppression directement sur l'historique supprime l'élément en question et non un autre élément
+	- [x] Traduction
+	- [x] Synthèse
+	- [x] Reformulation
+- [x] Les pages détaillées des interactions affichent toutes les données de l'interaction qui lui est propre.
+	- [x] Traduction
+	- [x] Synthèse
+	- [x] Reformulation
+- [x] Le bouton de suppression de l'élément de la page détaillée supprime ce dit élément et redirige vers la page de tout les historiques.
+	- [x] Traduction
+	- [x] Synthèse
+	- [x] Reformulation
+- [x] L'historique est disponible sans prendre compte la connexion avec Ollama (non nécessaire pour regarder l'historique des données dans la base de données)
 ## Compilation
 
 - [x] Capable de construire l'installateur du premier livrable

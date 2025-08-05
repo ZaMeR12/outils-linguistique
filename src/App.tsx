@@ -9,6 +9,8 @@ import Reformuler from "./routes/Reformuler.routes.tsx";
 import Historique from "./routes/historique/Principal.historique.routes.tsx";
 import TradDetails from "./routes/historique/TradDetails.historique.routes.tsx";
 import SynthDetails from "./routes/historique/SynthDetails.historique.routes.tsx";
+import ReformDetails from "./routes/historique/ReformDetails.historique.routes.tsx";
+import { Typography } from "@mui/material";
 
 function App() {
   return (
@@ -25,9 +27,16 @@ function App() {
             <Route path="historique/resume/:id" element={<SynthDetails />} />
             <Route
               path="historique/reformulation/:id"
-              element={<div>Détails de la reformulation</div>}
+              element={<ReformDetails />}
             />
-            <Route path="*" element={<div>404 Not Found</div>} />
+            <Route
+              path="*"
+              element={
+                <Typography variant="h6" component="h6">
+                  Erreur 404 : Page non trouvée
+                </Typography>
+              }
+            />
           </Route>
         </Routes>
       </OllamaProvider>

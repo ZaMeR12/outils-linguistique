@@ -2,6 +2,7 @@ import { Card, CardContent, Grid, MenuItem, TextField } from "@mui/material";
 import TabTrad from "./tableau/TabTrad.components";
 import useLocalStorage from "use-local-storage";
 import TabSynth from "./tableau/TabSynth.components";
+import TabReform from "./tableau/TabReform.components";
 
 /**
  * Composant pour afficher le tableau de l'historique.
@@ -44,7 +45,7 @@ const TableauHistorique = () => {
           <Grid size={12}>
             {outil === "traduction" && <TabTrad />}
             {outil === "resume" && <TabSynth />}
-            {/* {outil === "reformulation" && <TabReformulation />} */}
+            {outil === "reformulation" && <TabReform />}
           </Grid>
         </Grid>
       </CardContent>
