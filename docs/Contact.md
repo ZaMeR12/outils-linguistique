@@ -15,26 +15,26 @@ Grâce à mon DEC (Diplôme d'études Collégiales) en technique informatique, j
 
 Je possède une expertise dans plusieurs langages de programmation, notamment :
 
-- TypeScript
-- Kotlin
-- Java
-- SwiftUI
-- Python
-- HTML/CSS/JavaScript
-- PHP
-- C#
-- C++
+- TypeScript :simple-typescript:
+- Kotlin :material-language-kotlin:
+- Java :fontawesome-brands-java:
+- SwiftUI :simple-swift:
+- Python :simple-python:
+- HTML :simple-html5: / CSS :fontawesome-brands-css3-alt: / JavaScript :simple-javascript:
+- PHP :material-language-php:
+- C# :material-language-csharp:
+- C++ :simple-cplusplus:
 
 Je suis également à l'aise avec différentes bases de données de différents types :
 
 - Bases relationnelles :
-    - MariaDB
-    - MySQL
-    - SQLite
+    - MariaDB :simple-mariadb:
+    - MySQL :simple-mysql:
+    - SQLite :simple-sqlite:
 - Bases orientées documents :
-    - MongoDB
+    - MongoDB :simple-mongodb:
 - Bases de données en mémoire :
-    - InnoDB
+    - IndexedDB :material-database:
 
 *Note : Ces listes ne sont pas exhaustives.*
 
@@ -50,10 +50,10 @@ Par courriel  :material-email-fast-outline: : [zamer12.dev@pm.me](mailto:zamer12
 ### [Docker Dbs](https://github.com/ZaMeR12/docker_dbs){: target="_blank"}
 Un projet qui facilite la gestion de plusieurs bases de données à l'aide de conteneurs Docker.
 
-<!-- ### [Enkiria Wiki](https://zamer12.github.io/Enkiria-Wiki/){: target="_blank"}
+### [Enkiria Wiki](https://zamer12.github.io/Enkiria-Wiki/){: target="_blank"}
 Un wiki pour un serveur de jeu Minecraft moddé avec un modpack personnalisé incluant Pixelmon.
 Ce wiki est conçu pour aider les joueurs à comprendre les mécaniques du jeu et à s'orienter dans le modpack.
-Dont les formes régionales de la Région d'Enkiria. -->
+Dont les formes régionales de la Région d'Enkiria.
 
 ### [Hangman Skeleton](https://github.com/ZaMeR12/hangman_skeleton_react){: target="_blank"}
 Un projet de jeu de pendu en React, qui utilise les hooks pour gérer l'état du jeu et les interactions utilisateur. Il est multilingue et permet aux utilisateurs de jouer dans différentes langues. (Anglais, Français)

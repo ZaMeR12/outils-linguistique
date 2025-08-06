@@ -6,12 +6,14 @@ hide:
   - title
 ---
 
-# Documentation pour l'application d'outils linguistique
+![Logo](icon-512.png){  width="100" height="100" }
+
+# Documentation pour l'application d'outils linguistiques
 
 
 ## Description du projet
 
-Ce projet constitue l'épreuve finale de mon DEC (Diplôme d'études Collégiales) en technique informatique au Cégep de Victoriaville.
+Ce projet constitue l'épreuve finale de mon DEC (diplôme d'études collégiales) en technique informatique au Cégep de Victoriaville.
 
 Il a été réalisé dans le cadre du cours de Projet personnel de la technique, avec pour contrainte qu'il soit réalisable en environ 45 heures.
 

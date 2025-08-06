@@ -1,6 +1,10 @@
-site_name: Outils linguistique - Docs
+site_name: Outils linguistiques
 site_url: https://zamer12.github.io/outils-linguistique/
+repo_url: https://github.com/ZaMeR12/outils-linguistique
+repo_name: Outils linguistique
 theme:
+  icon:
+    repo: fontawesome/brands/github 
   name: material
   font:
     text: Parkinsans
@@ -13,11 +17,16 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Mode sombre
+      primary: deep purple
+      accent: purple
     # Lightmode
     - scheme: default
       toggle:
         icon: material/weather-night
         name: Mode clair
+      primary: deep purple
+      accent: purple
+        
   features:
     - navigation.tabs
     - navigation.top
