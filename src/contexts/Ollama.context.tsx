@@ -135,6 +135,11 @@ export default function OllamaProvider(props: React.PropsWithChildren) {
     }
   }, [setModeles]);
 
+  /**
+   * Met à jour l'instance Ollama avec l'URL actuelle.
+   * Cette fonction est appelée pour réinitialiser l'instance Ollama avec la nouvelle URL.
+   * @author ZaMeR_12
+   */
   const miseAjourOllamaServeur = useCallback(async () => {
     try {
       ollama.current = new Ollama({ host: ollamaUrl.toString() });

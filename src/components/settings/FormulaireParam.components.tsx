@@ -34,6 +34,11 @@ const FormulaireParam = () => {
 
   const [erreurUrl, setErreurUrl] = useState<string>("");
 
+  /**
+   * Gère le changement de l'URL du service Ollama.
+   * @param event L'événement de changement.
+   * @author ZaMeR_12
+   */
   const onChangeOllamaUrl = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

@@ -67,18 +67,33 @@ const ReformulerFormulaire = () => {
     0
   );
 
+  /**
+   * Gère le changement de la langue de reformulation.
+   * @param event L'événement de changement.
+   * @author ZaMeR12
+   */
   const onChangeLangueReformuler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setLangueReformuler(event.target.value as LangueTraducteurEng);
   };
 
+  /**
+   * Gère le changement du texte initial à reformuler.
+   * @param event L'événement de changement.
+   * @author ZaMeR12
+   */
   const onChangeTexteInitial = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setTexteInitial(event.target.value);
   };
 
+  /**
+   * Gère le changement du style d'écriture pour la reformulation.
+   * @param event L'événement de changement.
+   * @author ZaMeR12
+   */
   const onChangeStyleEcriture = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
