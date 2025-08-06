@@ -3,15 +3,15 @@
 
 ## Interface 
 
-- [x] L'interface est en français au plus complet possible.
+- [ ] L'interface est en français au plus complet possible.
 
 ### Navigation
 
 - [x] Affichage graphique dynamique qui indique la bonne page lors d'une redirection interne
-- [x] Lors du lancement et des recharge de l'application, seulement l'option de la page principale devrait être disponible par défaut et c'est seulement lorsque la connexion avec Ollama a réussi.
+- [x] Lors du lancement et des recharge de l'application, seulement l'option de la page principale et l'historique devrait être disponible par défaut et c'est seulement lorsque la connexion avec Ollama a réussi que les pages d'outils deviennent activent.
 - [x] Les redirections mènent tous vers des pages existantes 
 - [x] Si par malheur l'utilisateur est redirigé vers une page non existante, cela affiche la page d'erreur 404.
-- [x] La navigation ne devrait pas être possible sauf sur la page principale s'il y a une erreur de connexion avec Ollama.
+- [x] La navigation ne devrait pas être possible sauf sur la page principale et l'historique s'il y a une erreur de connexion avec Ollama.
 - [x] Au changement de page, le cache de la réponse d'Ollama dans l'application est effacé.
 - [x] Si la barre de navigation dépasse la hauteur de la fenêtre, elle devient une zone à défilement séparée pour éviter un défilement général (sur le corps de la page)
 
@@ -41,6 +41,8 @@
 	- [x] Reformulation
 		- [x] Arrêt naturel
 		- [x] Arrêt forcer par l'utilisateur
+- [x] Si le fichier de la base de données SQLite n'est pas disponible, l'application génère le fichier.
+- [x] L'application crée les tables de données si elles n'existent pas.
 
 ### Traducteur
 
@@ -140,7 +142,7 @@
 	- [x] Traduction
 	- [x] Synthèse
 	- [x] Reformulation
-- [x] Faire un double clique sur une ligne du tableau de loutil en question redirige vers la page détaillée de l'interaction en question
+- [x] Faire un double clique sur une ligne du tableau de l'outil en question redirige vers la page détaillée de l'interaction en question
 	- [x] Traduction
 	- [x] Synthèse
 	- [x] Reformulation
@@ -170,14 +172,14 @@
 		- [x] Tar.gz
 		- [x] Deb
 		- [x] Image app
-- [ ] Capable de construire l'installateur du deuxième livrable
-	- [ ] Windows
-		- [ ] Zip
-		- [ ] 7z
-		- [ ] Installateur
-		- [ ] Unpacked
-	- [ ] Linux
-		- [ ] Unpacked
-		- [ ] Tar.gz
-		- [ ] Deb
-		- [ ] Image app
+- [x] Capable de construire l'installateur du deuxième livrable
+	- [x] Windows
+		- [x] Zip
+		- [x] 7z
+		- [x] Installateur
+		- [x] Unpacked
+	- [x] Linux
+		- [x] Unpacked
+		- [x] Tar.gz
+		- [x] Deb
+		- [x] Image app
