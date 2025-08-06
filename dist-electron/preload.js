@@ -1,24 +1,24 @@
-const { ipcRenderer, contextBridge } = require("electron");
+const { ipcRenderer: r, contextBridge: i } = require("electron");
 console.log("Preload script chargé.");
-contextBridge.exposeInMainWorld("ipcRenderer", {
-  on(...args) {
-    const [channel, listener] = args;
-    return ipcRenderer.on(
-      channel,
-      (event, ...args2) => listener(event, ...args2)
+i.exposeInMainWorld("ipcRenderer", {
+  on(...n) {
+    const [e, o] = n;
+    return r.on(
+      e,
+      (t, ...c) => o(t, ...c)
     );
   },
-  off(...args) {
-    const [channel, ...omit] = args;
-    return ipcRenderer.off(channel, ...omit);
+  off(...n) {
+    const [e, ...o] = n;
+    return r.off(e, ...o);
   },
-  send(...args) {
-    const [channel, ...omit] = args;
-    return ipcRenderer.send(channel, ...omit);
+  send(...n) {
+    const [e, ...o] = n;
+    return r.send(e, ...o);
   },
-  invoke(...args) {
-    const [channel, ...omit] = args;
-    return ipcRenderer.invoke(channel, ...omit);
+  invoke(...n) {
+    const [e, ...o] = n;
+    return r.invoke(e, ...o);
   }
   // You can expose other APTs you need here.
   // ...

@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from "electron";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-import Database from "better-sqlite3";
-const db = new Database(path.join(app.getPath("userData"), "database.db"));
-db.exec(`
+import { app as i, BrowserWindow as m, ipcMain as n } from "electron";
+import { fileURLToPath as y } from "node:url";
+import s from "node:path";
+import R from "better-sqlite3";
+const o = new R(s.join(i.getPath("userData"), "database.db"));
+o.exec(`
   CREATE TABLE IF NOT EXISTS traduction (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     texte_original TEXT NOT NULL,
@@ -14,7 +14,7 @@ db.exec(`
     date_traduction TEXT NOT NULL
   );
 `);
-db.exec(`
+o.exec(`
     CREATE TABLE IF NOT EXISTS synthese (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       texte_original TEXT NOT NULL,
@@ -24,7 +24,7 @@ db.exec(`
       date_synthese TEXT NOT NULL
     );
 `);
-db.exec(`
+o.exec(`
   CREATE TABLE IF NOT EXISTS reformulation (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     texte_original TEXT NOT NULL,
@@ -36,359 +36,270 @@ db.exec(`
     date_reformulation TEXT NOT NULL
   );
 `);
-const ajouterTraduction = (texteOriginal, texteTraduit, langueOrigine, langueCible, dateTraduction, modele) => {
-  const stmt = db.prepare(`
+const L = (r, e, t, l, c, u) => {
+  o.prepare(`
     INSERT INTO traduction (texte_original, texte_traduit, langue_origine, langue_cible, date_traduction, modele)
     VALUES (?, ?, ?, ?, ?, ?)
-  `);
-  stmt.run(
-    texteOriginal,
-    texteTraduit,
-    langueOrigine,
-    langueCible,
-    dateTraduction,
-    modele
+  `).run(
+    r,
+    e,
+    t,
+    l,
+    c,
+    u
   );
-};
-const ajouterSynthese = (texteOriginal, texteSynthetise, langueSynthese, dateSynthese, modele) => {
-  const stmt = db.prepare(`
+}, O = (r, e, t, l, c) => {
+  o.prepare(`
     INSERT INTO synthese (texte_original, texte_synthetise, langue_synthese, date_synthese, modele)
     VALUES (?, ?, ?, ?, ?)
-  `);
-  stmt.run(
-    texteOriginal,
-    texteSynthetise,
-    langueSynthese,
-    dateSynthese,
-    modele
+  `).run(
+    r,
+    e,
+    t,
+    l,
+    c
   );
-};
-const ajouterReformulation = (texteOriginal, texteReformule, langueReformule, style, limiteMots, dateReformulation, modele) => {
-  const stmt = db.prepare(`
+}, g = (r, e, t, l, c, u, T) => {
+  o.prepare(`
     INSERT INTO reformulation (texte_original, texte_reformule, langue_reformule, style, limite_mots, date_reformulation, modele)
     VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
-  stmt.run(
-    texteOriginal,
-    texteReformule,
-    langueReformule,
-    style,
-    limiteMots,
-    dateReformulation,
-    modele
+  `).run(
+    r,
+    e,
+    t,
+    l,
+    c,
+    u,
+    T
   );
-};
-const supprimerTraductionParId = (id) => {
-  const stmt = db.prepare(`DELETE FROM traduction WHERE id = ?`);
-  stmt.run(id);
-};
-const supprimerSyntheseParId = (id) => {
-  const stmt = db.prepare(`DELETE FROM synthese WHERE id = ?`);
-  stmt.run(id);
-};
-const supprimerReformulationParId = (id) => {
-  const stmt = db.prepare(`DELETE FROM reformulation WHERE id = ?`);
-  stmt.run(id);
-};
-const obtenirTradPagination = async (page, taille) => {
-  const stmt = db.prepare(
-    ` SELECT * FROM traduction ORDER BY date_traduction DESC LIMIT ? OFFSET ?`
-  );
-  return stmt.all(taille, page * taille);
-};
-const obtenirSynthPagination = async (page, taille) => {
-  const stmt = db.prepare(
-    ` SELECT * FROM synthese ORDER BY date_synthese DESC LIMIT ? OFFSET ?`
-  );
-  return stmt.all(taille, page * taille);
-};
-const obtenirReformPagination = async (page, taille) => {
-  const stmt = db.prepare(
-    ` SELECT * FROM reformulation ORDER BY date_reformulation DESC LIMIT ? OFFSET ?`
-  );
-  return stmt.all(taille, page * taille);
-};
-const obtenirNombreTotalTraductions = () => {
-  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM traduction`);
-  const row = stmt.get();
-  return row.total;
-};
-const obtenirNombreTotalSyntheses = () => {
-  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM synthese`);
-  const row = stmt.get();
-  return row.total;
-};
-const obtenirNombreTotalReformulations = () => {
-  const stmt = db.prepare(`SELECT COUNT(*) AS total FROM reformulation`);
-  const row = stmt.get();
-  return row.total;
-};
-const obtenirTraductionParId = (id) => {
-  const stmt = db.prepare(`SELECT * FROM traduction WHERE id = ?`);
-  return stmt.get(id);
-};
-const obtenirSyntheseParId = (id) => {
-  const stmt = db.prepare(`SELECT * FROM synthese WHERE id = ?`);
-  return stmt.get(id);
-};
-const obtenirReformulationParId = (id) => {
-  const stmt = db.prepare(`SELECT * FROM reformulation WHERE id = ?`);
-  return stmt.get(id);
-};
-const fermerBaseDeDonnees = () => {
-  db.close();
-};
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-process.env.APP_ROOT = path.join(__dirname, "..");
+}, N = (r) => {
+  o.prepare("DELETE FROM traduction WHERE id = ?").run(r);
+}, _ = (r) => {
+  o.prepare("DELETE FROM synthese WHERE id = ?").run(r);
+}, f = (r) => {
+  o.prepare("DELETE FROM reformulation WHERE id = ?").run(r);
+}, I = async (r, e) => o.prepare(
+  " SELECT * FROM traduction ORDER BY date_traduction DESC LIMIT ? OFFSET ?"
+).all(e, r * e), S = async (r, e) => o.prepare(
+  " SELECT * FROM synthese ORDER BY date_synthese DESC LIMIT ? OFFSET ?"
+).all(e, r * e), w = async (r, e) => o.prepare(
+  " SELECT * FROM reformulation ORDER BY date_reformulation DESC LIMIT ? OFFSET ?"
+).all(e, r * e), U = () => o.prepare("SELECT COUNT(*) AS total FROM traduction").get().total, b = () => o.prepare("SELECT COUNT(*) AS total FROM synthese").get().total, P = () => o.prepare("SELECT COUNT(*) AS total FROM reformulation").get().total, C = (r) => o.prepare("SELECT * FROM traduction WHERE id = ?").get(r), x = (r) => o.prepare("SELECT * FROM synthese WHERE id = ?").get(r), A = (r) => o.prepare("SELECT * FROM reformulation WHERE id = ?").get(r), j = () => {
+  o.close();
+}, M = y(import.meta.url), E = s.dirname(M);
+process.env.APP_ROOT = s.join(E, "..");
 console.log("APP_ROOT:", process.env.APP_ROOT);
-const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
-const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
-const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
-let win;
-const preloadPath = path.resolve(__dirname, "../dist-electron/preload.js");
-console.log("Preload path:", preloadPath);
-function createWindow() {
-  const cheminIcon = process.platform === "linux" ? path.join(process.env.VITE_PUBLIC, "icon-512.png") : path.join(process.env.VITE_PUBLIC, "favicon.ico");
-  console.log("Icon path:", cheminIcon);
-  win = new BrowserWindow({
-    icon: cheminIcon,
-    resizable: true,
+const d = process.env.VITE_DEV_SERVER_URL, W = s.join(process.env.APP_ROOT, "dist-electron"), p = s.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = d ? s.join(process.env.APP_ROOT, "public") : p;
+let a;
+const D = s.resolve(E, "../dist-electron/preload.js");
+console.log("Preload path:", D);
+function h() {
+  const r = process.platform === "linux" ? s.join(process.env.VITE_PUBLIC, "icon-512.png") : s.join(process.env.VITE_PUBLIC, "favicon.ico");
+  console.log("Icon path:", r), a = new m({
+    icon: r,
+    resizable: !0,
     height: 850,
     width: 1050,
     minWidth: 1050,
     minHeight: 850,
     webPreferences: {
-      preload: path.resolve(__dirname, "preload.js"),
-      nodeIntegration: false,
-      contextIsolation: true,
-      webSecurity: true,
-      sandbox: true
+      preload: s.resolve(E, "preload.js"),
+      nodeIntegration: !1,
+      contextIsolation: !0,
+      webSecurity: !0,
+      sandbox: !0
     }
-  });
-  win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
-  });
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
-  } else {
-    win.loadFile(path.join(RENDERER_DIST, "index.html"), { hash: "/" });
-  }
+  }), a.webContents.on("did-finish-load", () => {
+    a == null || a.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+  }), d ? a.loadURL(d) : a.loadFile(s.join(p, "index.html"), { hash: "/" });
 }
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    fermerBaseDeDonnees();
-    app.quit();
-    win = null;
-  }
+i.on("window-all-closed", () => {
+  process.platform !== "darwin" && (j(), i.quit(), a = null);
 });
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+i.on("activate", () => {
+  m.getAllWindows().length === 0 && h();
 });
-app.whenReady().then(createWindow);
-ipcMain.on(
+i.whenReady().then(h);
+n.on(
   "ajout-trad",
-  (event, data) => {
+  (r, e) => {
     try {
-      ajouterTraduction(
-        data.texteOriginal,
-        data.texteTraduit,
-        data.langueOrigine,
-        data.langueCible,
-        data.dateTraduction,
-        data.modele
-      );
-      event.reply("ajout-trad-success", "Traduction ajoutée avec succès.");
-    } catch (erreur) {
-      console.error("Erreur lors de l'insertion de la traduction :", erreur);
-      event.reply("ajout-trad-error", erreur.message);
+      L(
+        e.texteOriginal,
+        e.texteTraduit,
+        e.langueOrigine,
+        e.langueCible,
+        e.dateTraduction,
+        e.modele
+      ), r.reply("ajout-trad-success", "Traduction ajoutée avec succès.");
+    } catch (t) {
+      console.error("Erreur lors de l'insertion de la traduction :", t), r.reply("ajout-trad-error", t.message);
     }
   }
 );
-ipcMain.on(
+n.on(
   "ajout-synth",
-  (event, data) => {
+  (r, e) => {
     try {
-      ajouterSynthese(
-        data.texteOriginal,
-        data.texteSynthetise,
-        data.langueSynthese,
-        data.dateSynthese,
-        data.modele
-      );
-      event.reply("ajout-synth-success", "Synthèse ajoutée avec succès.");
-    } catch (erreur) {
-      console.error("Erreur lors de l'insertion de la synthèse :", erreur);
-      event.reply("ajout-synth-error", erreur.message);
+      O(
+        e.texteOriginal,
+        e.texteSynthetise,
+        e.langueSynthese,
+        e.dateSynthese,
+        e.modele
+      ), r.reply("ajout-synth-success", "Synthèse ajoutée avec succès.");
+    } catch (t) {
+      console.error("Erreur lors de l'insertion de la synthèse :", t), r.reply("ajout-synth-error", t.message);
     }
   }
 );
-ipcMain.on(
+n.on(
   "ajout-reform",
-  (event, data) => {
+  (r, e) => {
     try {
-      ajouterReformulation(
-        data.texteOriginal,
-        data.texteReformule,
-        data.langueReformule,
-        data.style,
-        data.limiteMots,
-        data.dateReformulation,
-        data.modele
-      );
-      event.reply("ajout-reform-success", "Reformulation ajoutée avec succès.");
-    } catch (erreur) {
-      console.error("Erreur lors de l'insertion de la reformulation :", erreur);
-      event.reply("ajout-reform-error", erreur.message);
+      g(
+        e.texteOriginal,
+        e.texteReformule,
+        e.langueReformule,
+        e.style,
+        e.limiteMots,
+        e.dateReformulation,
+        e.modele
+      ), r.reply("ajout-reform-success", "Reformulation ajoutée avec succès.");
+    } catch (t) {
+      console.error("Erreur lors de l'insertion de la reformulation :", t), r.reply("ajout-reform-error", t.message);
     }
   }
 );
-ipcMain.on(
+n.on(
   "sup-trad",
-  (event, data) => {
+  (r, e) => {
     try {
-      supprimerTraductionParId(data.id);
-      event.reply("sup-trad-success", "Traduction supprimée avec succès.");
-    } catch (erreur) {
-      console.error("Erreur lors de la suppression de la traduction :", erreur);
-      event.reply("sup-trad-error", erreur.message);
+      N(e.id), r.reply("sup-trad-success", "Traduction supprimée avec succès.");
+    } catch (t) {
+      console.error("Erreur lors de la suppression de la traduction :", t), r.reply("sup-trad-error", t.message);
     }
   }
 );
-ipcMain.on(
+n.on(
   "sup-synth",
-  (event, data) => {
+  (r, e) => {
     try {
-      supprimerSyntheseParId(data.id);
-      event.reply("sup-synth-success", "Synthèse supprimée avec succès.");
-    } catch (erreur) {
-      console.error("Erreur lors de la suppression de la synthèse :", erreur);
-      event.reply("sup-synth-error", erreur.message);
+      _(e.id), r.reply("sup-synth-success", "Synthèse supprimée avec succès.");
+    } catch (t) {
+      console.error("Erreur lors de la suppression de la synthèse :", t), r.reply("sup-synth-error", t.message);
     }
   }
 );
-ipcMain.on(
+n.on(
   "sup-reform",
-  (event, data) => {
+  (r, e) => {
     try {
-      supprimerReformulationParId(data.id);
-      event.reply("sup-reform-success", "Reformulation supprimée avec succès.");
-    } catch (erreur) {
+      f(e.id), r.reply("sup-reform-success", "Reformulation supprimée avec succès.");
+    } catch (t) {
       console.error(
         "Erreur lors de la suppression de la reformulation :",
-        erreur
-      );
-      event.reply("sup-reform-error", erreur.message);
+        t
+      ), r.reply("sup-reform-error", t.message);
     }
   }
 );
-ipcMain.handle(
+n.handle(
   "get-trads",
-  async (_event, data) => {
+  async (r, e) => {
     try {
-      return await obtenirTradPagination(data.page, data.taille);
-    } catch (erreur) {
-      console.error("Erreur lors de la récupération des traductions :", erreur);
-      throw erreur;
+      return await I(e.page, e.taille);
+    } catch (t) {
+      throw console.error("Erreur lors de la récupération des traductions :", t), t;
     }
   }
 );
-ipcMain.handle(
+n.handle(
   "get-synths",
-  async (_event, data) => {
+  async (r, e) => {
     try {
-      return await obtenirSynthPagination(data.page, data.taille);
-    } catch (erreur) {
-      console.error("Erreur lors de la récupération des synthèses :", erreur);
-      throw erreur;
+      return await S(e.page, e.taille);
+    } catch (t) {
+      throw console.error("Erreur lors de la récupération des synthèses :", t), t;
     }
   }
 );
-ipcMain.handle(
+n.handle(
   "get-reforms",
-  async (_event, data) => {
+  async (r, e) => {
     try {
-      return await obtenirReformPagination(data.page, data.taille);
-    } catch (erreur) {
-      console.error(
+      return await w(e.page, e.taille);
+    } catch (t) {
+      throw console.error(
         "Erreur lors de la récupération des reformulations :",
-        erreur
-      );
-      throw erreur;
+        t
+      ), t;
     }
   }
 );
-ipcMain.handle("get-nombre-trads", async () => {
+n.handle("get-nombre-trads", async () => {
   try {
-    return obtenirNombreTotalTraductions();
-  } catch (erreur) {
-    console.error(
+    return U();
+  } catch (r) {
+    throw console.error(
       "Erreur lors de la récupération du nombre total de traductions :",
-      erreur
-    );
-    throw erreur;
+      r
+    ), r;
   }
 });
-ipcMain.handle("get-nombre-synths", async () => {
+n.handle("get-nombre-synths", async () => {
   try {
-    return await obtenirNombreTotalSyntheses();
-  } catch (erreur) {
-    console.error(
+    return await b();
+  } catch (r) {
+    throw console.error(
       "Erreur lors de la récupération du nombre total de synthèses :",
-      erreur
-    );
-    throw erreur;
+      r
+    ), r;
   }
 });
-ipcMain.handle("get-nombre-reforms", async () => {
+n.handle("get-nombre-reforms", async () => {
   try {
-    return await obtenirNombreTotalReformulations();
-  } catch (erreur) {
-    console.error(
+    return await P();
+  } catch (r) {
+    throw console.error(
       "Erreur lors de la récupération du nombre total de reformulations :",
-      erreur
-    );
-    throw erreur;
+      r
+    ), r;
   }
 });
-ipcMain.handle("get-trad-par-id", async (_event, id) => {
+n.handle("get-trad-par-id", async (r, e) => {
   try {
-    return obtenirTraductionParId(id);
-  } catch (erreur) {
-    console.error(
+    return C(e);
+  } catch (t) {
+    throw console.error(
       "Erreur lors de la récupération de la traduction par ID :",
-      erreur
-    );
-    throw erreur;
+      t
+    ), t;
   }
 });
-ipcMain.handle("get-synth-par-id", async (_event, id) => {
+n.handle("get-synth-par-id", async (r, e) => {
   try {
-    return obtenirSyntheseParId(id);
-  } catch (erreur) {
-    console.error(
+    return x(e);
+  } catch (t) {
+    throw console.error(
       "Erreur lors de la récupération de la synthèse par ID :",
-      erreur
-    );
-    throw erreur;
+      t
+    ), t;
   }
 });
-ipcMain.handle("get-reform-par-id", async (_event, id) => {
+n.handle("get-reform-par-id", async (r, e) => {
   try {
-    return obtenirReformulationParId(id);
-  } catch (erreur) {
-    console.error(
+    return A(e);
+  } catch (t) {
+    throw console.error(
       "Erreur lors de la récupération de la reformulation par ID :",
-      erreur
-    );
-    throw erreur;
+      t
+    ), t;
   }
 });
 export {
-  MAIN_DIST,
-  RENDERER_DIST,
-  VITE_DEV_SERVER_URL
+  W as MAIN_DIST,
+  p as RENDERER_DIST,
+  d as VITE_DEV_SERVER_URL
 };

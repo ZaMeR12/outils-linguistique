@@ -3,7 +3,7 @@
 
 ## Interface 
 
-- [ ] L'interface est en français au plus complet possible.
+- [x] L'interface est en français au plus complet possible.
 
 ### Navigation
 
