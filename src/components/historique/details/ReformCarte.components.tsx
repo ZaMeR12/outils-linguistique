@@ -23,7 +23,7 @@ interface ReformulationBd {
   id: number;
   texte_original: string;
   texte_reformule: string;
-  langue_origine: string;
+  langue_reformule: string;
   style: string;
   limite_mots: number;
   date_reformulation: string;
@@ -83,7 +83,7 @@ const ReformCarte = ({ id }: ReformCarteProps) => {
                 <strong>Langue de la reformulation:</strong>{" "}
                 {
                   correspondanceLangues[
-                    reformulation.langue_origine as LangueTraducteurEng
+                    reformulation.langue_reformule as LangueTraducteurEng
                   ]
                 }
               </Typography>

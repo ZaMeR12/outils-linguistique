@@ -91,7 +91,7 @@ const SynthFormulaire = () => {
       window.ipcRenderer.send("ajout-synth", {
         texteOriginal: texteInitial,
         texteSynthetise: texteSynthetise,
-        langueOrigine: langueResume,
+        langueSynthese: langueResume,
         dateSynthese: new Date().toISOString(),
         modele: resumeModele.nom,
       });

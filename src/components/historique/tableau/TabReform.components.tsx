@@ -15,7 +15,7 @@ type ReformLigne = {
   id: number;
   texte_original: string;
   texte_reformule: string;
-  langue_origine: string;
+  langue_reformule: string;
   style: string;
   limite_mots: number;
   date_reformulation: string;
@@ -52,7 +52,7 @@ const TabReform = () => {
     { field: "texte_original", headerName: "Texte original", flex: 1 },
     { field: "texte_reformule", headerName: "Texte reformulé", flex: 1 },
     {
-      field: "langue_origine",
+      field: "langue_reformule",
       headerName: "Langue de la reformulation",
       flex: 1,
       renderCell: (params) => {

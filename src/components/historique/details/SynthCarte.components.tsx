@@ -21,7 +21,7 @@ interface SyntheseBd {
   id: number;
   texte_original: string;
   texte_synthetise: string;
-  langue_origine: string;
+  langue_synthese: string;
   date_synthese: string;
   modele: string;
 }
@@ -78,7 +78,7 @@ const SynthCarte = ({ id }: SynthCarteProps) => {
                 <strong>Langue de la synthèse:</strong>{" "}
                 {
                   correspondanceLangues[
-                    synthese.langue_origine as LangueTraducteurEng
+                    synthese.langue_synthese as LangueTraducteurEng
                   ]
                 }
               </Typography>

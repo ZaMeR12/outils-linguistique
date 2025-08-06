@@ -13,7 +13,7 @@ type SynthLigne = {
   id: number;
   texte_original: string;
   texte_synthetise: string;
-  langue_origine: string;
+  langue_synthese: string;
   date_synthese: string;
   modele: string; // Ajout de la propriété pour le modèle
 };
@@ -48,7 +48,7 @@ const TabSynth = () => {
     { field: "texte_original", headerName: "Texte original", flex: 1 },
     { field: "texte_synthetise", headerName: "Synthèse", flex: 1 },
     {
-      field: "langue_origine",
+      field: "langue_synthese",
       headerName: "Langue de la synthèse",
       flex: 1,
       renderCell: (params) => {

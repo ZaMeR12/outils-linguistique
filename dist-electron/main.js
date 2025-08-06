@@ -19,7 +19,7 @@ db.exec(`
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       texte_original TEXT NOT NULL,
       texte_synthetise TEXT NOT NULL,
-      langue_origine TEXT NOT NULL,
+      langue_synthese TEXT NOT NULL,
       modele TEXT NOT NULL,
       date_synthese TEXT NOT NULL
     );
@@ -29,7 +29,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     texte_original TEXT NOT NULL,
     texte_reformule TEXT NOT NULL,
-    langue_origine TEXT NOT NULL,
+    langue_reformule TEXT NOT NULL,
     style TEXT NOT NULL,
     limite_mots INTEGER NOT NULL,
     modele TEXT NOT NULL,
@@ -50,22 +50,28 @@ const ajouterTraduction = (texteOriginal, texteTraduit, langueOrigine, langueCib
     modele
   );
 };
-const ajouterSynthese = (texteOriginal, texteSynthetise, langueOrigine, dateSynthese, modele) => {
+const ajouterSynthese = (texteOriginal, texteSynthetise, langueSynthese, dateSynthese, modele) => {
   const stmt = db.prepare(`
-    INSERT INTO synthese (texte_original, texte_synthetise, langue_origine, date_synthese, modele)
+    INSERT INTO synthese (texte_original, texte_synthetise, langue_synthese, date_synthese, modele)
     VALUES (?, ?, ?, ?, ?)
   `);
-  stmt.run(texteOriginal, texteSynthetise, langueOrigine, dateSynthese, modele);
+  stmt.run(
+    texteOriginal,
+    texteSynthetise,
+    langueSynthese,
+    dateSynthese,
+    modele
+  );
 };
-const ajouterReformulation = (texteOriginal, texteReformule, langueOrigine, style, limiteMots, dateReformulation, modele) => {
+const ajouterReformulation = (texteOriginal, texteReformule, langueReformule, style, limiteMots, dateReformulation, modele) => {
   const stmt = db.prepare(`
-    INSERT INTO reformulation (texte_original, texte_reformule, langue_origine, style, limite_mots, date_reformulation, modele)
+    INSERT INTO reformulation (texte_original, texte_reformule, langue_reformule, style, limite_mots, date_reformulation, modele)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
   stmt.run(
     texteOriginal,
     texteReformule,
-    langueOrigine,
+    langueReformule,
     style,
     limiteMots,
     dateReformulation,
@@ -209,7 +215,7 @@ ipcMain.on(
       ajouterSynthese(
         data.texteOriginal,
         data.texteSynthetise,
-        data.langueOrigine,
+        data.langueSynthese,
         data.dateSynthese,
         data.modele
       );
@@ -227,7 +233,7 @@ ipcMain.on(
       ajouterReformulation(
         data.texteOriginal,
         data.texteReformule,
-        data.langueOrigine,
+        data.langueReformule,
         data.style,
         data.limiteMots,
         data.dateReformulation,

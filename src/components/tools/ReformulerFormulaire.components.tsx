@@ -106,7 +106,7 @@ const ReformulerFormulaire = () => {
       window.ipcRenderer.send("ajout-reform", {
         texteOriginal: texteInitial,
         texteReformule: texteReformule,
-        langueOrigine: langueReformuler,
+        langueReformule: langueReformuler,
         style: styleEcriture,
         limiteMots: limiteMots,
         dateReformulation: new Date().toISOString(),

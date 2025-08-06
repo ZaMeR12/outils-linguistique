@@ -151,7 +151,7 @@ ipcMain.on(
     data: {
       texteOriginal: string;
       texteSynthetise: string;
-      langueOrigine: string;
+      langueSynthese: string;
       langueCible: string;
       dateSynthese: string;
       modele: string;
@@ -161,7 +161,7 @@ ipcMain.on(
       ajouterSynthese(
         data.texteOriginal,
         data.texteSynthetise,
-        data.langueOrigine,
+        data.langueSynthese,
         data.dateSynthese,
         data.modele
       );
@@ -181,7 +181,7 @@ ipcMain.on(
     data: {
       texteOriginal: string;
       texteReformule: string;
-      langueOrigine: string;
+      langueReformule: string;
       style: string;
       limiteMots: number;
       dateReformulation: string;
@@ -192,7 +192,7 @@ ipcMain.on(
       ajouterReformulation(
         data.texteOriginal,
         data.texteReformule,
-        data.langueOrigine,
+        data.langueReformule,
         data.style,
         data.limiteMots,
         data.dateReformulation,

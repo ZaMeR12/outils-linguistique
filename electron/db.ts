@@ -23,7 +23,7 @@ db.exec(`
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       texte_original TEXT NOT NULL,
       texte_synthetise TEXT NOT NULL,
-      langue_origine TEXT NOT NULL,
+      langue_synthese TEXT NOT NULL,
       modele TEXT NOT NULL,
       date_synthese TEXT NOT NULL
     );
@@ -35,7 +35,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     texte_original TEXT NOT NULL,
     texte_reformule TEXT NOT NULL,
-    langue_origine TEXT NOT NULL,
+    langue_reformule TEXT NOT NULL,
     style TEXT NOT NULL,
     limite_mots INTEGER NOT NULL,
     modele TEXT NOT NULL,
@@ -80,22 +80,28 @@ export const ajouterTraduction = (
  * @author ZaMeR12
  * @param texteOriginal  Le texte original à synthétiser.
  * @param texteSynthetise  Le texte synthétisé.
- * @param langueOrigine  La langue d'origine du texte.
+ * @param langueSynthese  La langue de la synthèse.
  * @param dateSynthese  La date de la synthèse.
  * @param modele  Le modèle utilisé pour la synthèse.
  */
 export const ajouterSynthese = (
   texteOriginal: string,
   texteSynthetise: string,
-  langueOrigine: string,
+  langueSynthese: string,
   dateSynthese: string,
   modele: string
 ) => {
   const stmt = db.prepare(`
-    INSERT INTO synthese (texte_original, texte_synthetise, langue_origine, date_synthese, modele)
+    INSERT INTO synthese (texte_original, texte_synthetise, langue_synthese, date_synthese, modele)
     VALUES (?, ?, ?, ?, ?)
   `);
-  stmt.run(texteOriginal, texteSynthetise, langueOrigine, dateSynthese, modele);
+  stmt.run(
+    texteOriginal,
+    texteSynthetise,
+    langueSynthese,
+    dateSynthese,
+    modele
+  );
 };
 
 /**
@@ -103,7 +109,7 @@ export const ajouterSynthese = (
  * @author ZaMeR12
  * @param texteOriginal  Le texte original à reformuler.
  * @param texteReformule  Le texte reformulé.
- * @param langueOrigine  La langue d'origine du texte.
+ * @param langueReformule  La langue du texte reformulé.
  * @param style  Le style de la reformulation.
  * @param limiteMots  La limite de mots pour la reformulation.
  * @param dateReformulation  La date de la reformulation.
@@ -111,20 +117,20 @@ export const ajouterSynthese = (
 export const ajouterReformulation = (
   texteOriginal: string,
   texteReformule: string,
-  langueOrigine: string,
+  langueReformule: string,
   style: string,
   limiteMots: number,
   dateReformulation: string,
   modele: string
 ) => {
   const stmt = db.prepare(`
-    INSERT INTO reformulation (texte_original, texte_reformule, langue_origine, style, limite_mots, date_reformulation, modele)
+    INSERT INTO reformulation (texte_original, texte_reformule, langue_reformule, style, limite_mots, date_reformulation, modele)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
   stmt.run(
     texteOriginal,
     texteReformule,
-    langueOrigine,
+    langueReformule,
     style,
     limiteMots,
     dateReformulation,
